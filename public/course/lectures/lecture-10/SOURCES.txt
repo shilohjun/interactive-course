@@ -1,0 +1,12 @@
+Official example course pack for Lecture 10: Multimodal LLMs.
+
+Original lecture: https://nlp-course-cuhksz.github.io/lecture10.html
+Instructor: Benyou Wang, CUHK-Shenzhen
+Course: CSC5051 / CSC6052 / MDS5110 Natural Language Processing
+Slides: https://nlp-course-cuhksz.github.io/materials/2026_fall_slides/Lecture10_Multimodal_LLMs.pdf
+Official chapter videos (not stored in this repository):
+  https://wabyking.github.io/nlp2026-videos-2/lecture10/
+  Downloaded and concatenated by scripts/fetch-media.sh
+
+The video is the official AI-narrated recording. This pack does not clone the instructor's voice.
+English cues are taken from the official timed transcript; Chinese subtitles are not included.

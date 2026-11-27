@@ -1,0 +1,78 @@
+{
+  "id": "lecture-10",
+  "title": "Multimodal LLMs",
+  "subtitle": "Can large models see, hear, speak, act — and understand 3D space?",
+  "courseId": "cuhksz-nlp",
+  "duration": 6435.565,
+  "slides": {
+    "count": 134,
+    "pdf": "slides.pdf"
+  },
+  "media": {
+    "file": "lecture-10.mp4"
+  },
+  "chapters": [
+    {
+      "id": "why-multimodality",
+      "title": "Why Multimodality?",
+      "start": 0.0,
+      "slide": 1
+    },
+    {
+      "id": "clip-and-flamingo",
+      "title": "Connecting Vision and Language: CLIP and Flamingo",
+      "start": 445.667,
+      "slide": 11
+    },
+    {
+      "id": "architecture",
+      "title": "Multimodal LLMs: Architecture",
+      "start": 1619.667,
+      "slide": 36
+    },
+    {
+      "id": "training",
+      "title": "Training Multimodal LLMs",
+      "start": 2768.8,
+      "slide": 63
+    },
+    {
+      "id": "speech",
+      "title": "Speech Language Models",
+      "start": 3492.533,
+      "slide": 79
+    },
+    {
+      "id": "generation",
+      "title": "Generation and World Simulators",
+      "start": 4462.533,
+      "slide": 95
+    },
+    {
+      "id": "vla-world-models",
+      "title": "Embodied Intelligence: VLA and World Models",
+      "start": 4770.467,
+      "slide": 102
+    },
+    {
+      "id": "3d-understanding",
+      "title": "3D Understanding and Generation",
+      "start": 5404.267,
+      "slide": 111
+    },
+    {
+      "id": "outlook",
+      "title": "Research Directions and Outlook",
+      "start": 5775.333,
+      "slide": 117
+    }
+  ],
+  "source": {
+    "instructor": "Benyou Wang",
+    "course": "CSC5051 / CSC6052 / MDS5110 · Natural Language Processing",
+    "institution": "CUHK-Shenzhen",
+    "courseUrl": "https://nlp-course-cuhksz.github.io/lecture10.html",
+    "videoUrl": "https://nlp-course-cuhksz.github.io/lecture10.html",
+    "licenseNote": "Official example course pack, used with attribution and a link back to the original lecture page. The video is the official AI-narrated recording; this pack does not clone the instructor's voice."
+  }
+}

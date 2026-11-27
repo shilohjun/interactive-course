@@ -1,6 +1,6 @@
 # Interactive Course
 
-一台共用播放器，把已有课程材料变成可以讲解、同步翻页、随时提问的交互课程。当前可演示的课：**University of Michigan Math 214 · Lecture 1a**（Speyer）。选课和播放器都固定在一屏内，页面不滚。
+一台共用播放器，把已有课程材料变成可以讲解、同步翻页、随时提问的交互课程。当前可演示的课：**University of Michigan Math 214 · Lecture 1a**（Speyer），以及官方范例课包 **CUHK-Shenzhen NLP Lecture 10 · Multimodal LLMs**。选课和播放器都固定在一屏内，页面不滚。
 
 - 设计说明：[`详细设计.md`](详细设计.md)（§12 为第二轮确认，§13 为 2026-11-27 晚确认的一屏 B 方案）
 - 实现计划：[`docs/superpowers/plans/2026-11-27-interactive-course-monday.md`](docs/superpowers/plans/2026-11-27-interactive-course-monday.md)
@@ -11,7 +11,7 @@
 ## 现在能做什么
 
 - **选课** `/course/#/`：一屏三张封面，中间放大；左右箭头 / ← → 切课，点两侧封面把课移到中间。
-  - Speyer 1a 可进；`Math 214 · Lecture 1b` 与 MAT3007 标 `In preparation`，可居中但不能进。
+  - Speyer 1a 与官方范例 Lecture 10 可进；MAT3007 标 `In preparation`，可居中但不能进。
   - About/署名用右上角小面板打开，切课后面板跟着当前课。
 - **播放器** `/course/#/lecture/speyer-1a`：课件当板，底部一条当前字幕 + 时间标尺 + 播放控制。
   - 媒体 `currentTime` 是唯一时钟；自动翻页、字幕高亮、章节状态都从它推导。
@@ -48,8 +48,14 @@ public/course/lectures/speyer-1a/
   slides/01.webp … 11.webp                    # 按页导出的图
   slides.pdf                                  # 课件原件（公开材料，带署名）
   poster.jpg                                  # 视频首帧，播放器占位
+public/course/lectures/lecture-10/            # 官方范例课包，署名并链回原讲页
+  meta.json
+  transcript.json                             # 英文字幕（官方逐句时间轴）
+  slides/01.webp … 134.webp
+  slides.pdf
 public/course/lectures/mat3007/slides/01.webp # 只放 slides18 第一页（公开已获许可）
 public/media/speyer-1a.mp4                    # 不进 git，部署前拉取
+public/media/lecture-10.mp4                   # 不进 git，由九段官方章节录像拼接
 ```
 
 `transcript.json` 的字幕字段是 `{ start, end, slide, text, chapter? }`（秒）。播放器不关心媒体是官方录像还是 TTS，换一套课包就能上新课。
@@ -96,14 +102,14 @@ Speyer 视频没有任何字幕轨，英文字幕由 Whisper 生成后逐句校�
 - 播放器的 Info 面板与每讲 `meta.json` 都带 instructor、课程页、原视频和「非官方转制」说明。
 - MAT3007 `slides18` 已获夏郡 2026-11-27 公开许可；当前只放第一页作为封面，署名 Rui Chen / CUHK-Shenzhen，不声明 CC 许可；完整 slides 与课包在最终提交前再放。
 - 公开仓库不存录像，只存 `fetch-media.sh` 与 SHA-256。
-- 题目范例 Lecture 10 只做内部交互对照，不进仓库、不进提交。
+- Lecture 10 是官方范例课包：使用其已公开的课件、讲稿时间轴和 AI 讲解录像，署名并链回[原讲页](https://nlp-course-cuhksz.github.io/lecture10.html)，不克隆教师声线。录像不进仓库，由 `scripts/fetch-media.sh` 拉取后拼接。
 
 ## 已知限制
 
 - 练习 Deep link 的题号目前是占位 `LINALG1`，等步步解题库真 id 到位后替换。
 - 字幕是自动转写后校对的；个别数学符号（如 `f′(x₀)`）在字幕里写作文字形式。
 - 高亮做到「页级」；区域级高亮字段已预留（`highlight`），尚未实现。
-- MAT3007 完整课包与约束拖动小样在周一之后按同一流水线补；现在只有公开许可的封面第一页。
+- MAT3007 完整课包仍在准备中；现在只有公开许可的封面第一页。
 - 移动端同样是一屏；桌面默认打开 Transcript，移动端默认收起先看板。手机上的 Transcript/Chapters/Info 是全屏面板，关闭后回到板。
 - 一屏布局的前提是 100dvh；旧版浏览器不支持 `dvh` 时用 `height:100%` 兜底。
 

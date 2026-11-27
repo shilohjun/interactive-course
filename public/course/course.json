@@ -2,7 +2,7 @@
   "site": {
     "title": "Interactive Course",
     "tagline": "A lecture you can stop, rewind, and take apart.",
-    "attribution": "Math 214 © David E. Speyer, University of Michigan, used with attribution and linked back; no Creative Commons license is claimed. MAT3007 © Rui Chen, CUHK-Shenzhen, used with attribution for this course demo.",
+    "attribution": "Math 214 © David E. Speyer, University of Michigan, used with attribution and linked back; no Creative Commons license is claimed. Lecture 10 © Benyou Wang, CUHK-Shenzhen, official example course pack, linked back to the original lecture page. MAT3007 © Rui Chen, CUHK-Shenzhen, used with attribution for this course demo.",
     "playerNote": "One clock: the video's current time drives the slide, the transcript, and the chapter list. Click a sentence to jump; open an explorable and return to the same second."
   },
   "shelf": [
@@ -15,7 +15,9 @@
       "instructor": "David E. Speyer",
       "status": "live",
       "href": "/lecture/speyer-1a",
-      "cover": { "src": "course/lectures/speyer-1a/slides/06.webp" },
+      "cover": {
+        "src": "course/lectures/speyer-1a/slides/06.webp"
+      },
       "meta": "14:01 · 11 slides · 6 chapters",
       "sourceNote": "Math 214 · Applied Linear Algebra, University of Michigan",
       "sourceUrl": "https://sites.lsa.umich.edu/speyer/conferences/linear-algebra-videos/",
@@ -23,18 +25,22 @@
       "licenseNote": "Public course material with no Creative Commons license stated. The video is re-cut with attribution and links back to the original."
     },
     {
-      "id": "speyer-1b",
-      "code": "Math 214",
-      "course": "Applied Linear Algebra",
-      "title": "1b · Solving linear systems",
-      "institution": "University of Michigan",
-      "instructor": "David E. Speyer",
-      "status": "soon",
-      "cover": { "kicker": "Math 214", "big": "Lecture 1b", "small": "In preparation" },
-      "meta": "In preparation",
-      "sourceNote": "Math 214 · Applied Linear Algebra, University of Michigan",
-      "sourceUrl": "https://sites.lsa.umich.edu/speyer/conferences/linear-algebra-videos/",
-      "licenseNote": "The next public lecture in the same course. The pack is not built yet."
+      "id": "lecture-10",
+      "code": "CSC5051",
+      "course": "Natural Language Processing",
+      "title": "Lecture 10 · Multimodal LLMs",
+      "institution": "CUHK-Shenzhen",
+      "instructor": "Benyou Wang",
+      "status": "live",
+      "href": "/lecture/lecture-10",
+      "cover": {
+        "src": "course/lectures/lecture-10/slides/01.webp"
+      },
+      "meta": "Official example · 1:47:16 · 134 slides · 9 chapters",
+      "sourceNote": "Official example course pack. Lecture 10: Multimodal LLMs, CUHK-Shenzhen.",
+      "sourceUrl": "https://nlp-course-cuhksz.github.io/lecture10.html",
+      "videoUrl": "https://nlp-course-cuhksz.github.io/lecture10.html",
+      "licenseNote": "Official public lecture used as an example pack, with attribution and a link back to the original page. The video is the official AI-narrated recording; this pack does not clone the instructor's voice."
     },
     {
       "id": "mat3007",
@@ -44,7 +50,9 @@
       "institution": "CUHK-Shenzhen",
       "instructor": "Rui Chen",
       "status": "soon",
-      "cover": { "src": "course/lectures/mat3007/slides/01.webp" },
+      "cover": {
+        "src": "course/lectures/mat3007/slides/01.webp"
+      },
       "meta": "slides18 · in preparation",
       "sourceNote": "MAT3007 · Optimization, CUHK-Shenzhen, 18 Nov 2026",
       "licenseNote": "Course slides used with permission for this course demo; no license is claimed."
