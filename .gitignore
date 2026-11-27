@@ -1,0 +1,13 @@
+# Build and runtime artifacts
+node_modules/
+dist/
+.cache/
+tools/
+public/media/
+playwright-report/
+test-results/
+*.log
+
+# Real-course materials and internal format references must not be committed
+samples/mat3007-slides18/
+internal/

@@ -1,0 +1,204 @@
+import { useEffect, useState } from "react";
+import type { ExplorableRef, Exercise, LectureMeta, Transcript } from "../types";
+import {
+  activeCueAt,
+  chapterAt,
+  firstTimeOfSlide,
+  formatTime,
+  nextSlide,
+  slideAt,
+} from "../lib/timeline";
+import { Chapters } from "./Chapters";
+import { Captions } from "./Captions";
+import { Transport } from "./Transport";
+import { SlideStage } from "./SlideStage";
+import { ExerciseCard } from "./ExerciseCard";
+import { ExplorableOverlay } from "./ExplorableOverlay";
+import { Attribution } from "./Attribution";
+
+export type PlayerViewProps = {
+  meta: LectureMeta;
+  transcript: Transcript;
+  baseUrl: string;
+  time: number;
+  duration: number;
+  playing: boolean;
+  rate: number;
+  videoRef: (element: HTMLVideoElement | null) => void;
+  onLoadedMetadata: () => void;
+  onVideoError?: () => void;
+  onToggle: () => void;
+  onSeek: (time: number) => void;
+  onRate: (rate: number) => void;
+  onPause: () => void;
+  onPlay: () => void;
+  mediaError?: boolean;
+  resumedAt?: number | null;
+};
+
+export function PlayerView({
+  meta,
+  transcript,
+  baseUrl,
+  time,
+  duration,
+  playing,
+  rate,
+  videoRef,
+  onLoadedMetadata,
+  onVideoError,
+  onToggle,
+  onSeek,
+  onRate,
+  onPause,
+  onPlay,
+  mediaError = false,
+  resumedAt = null,
+}: PlayerViewProps) {
+  const cues = transcript.cues;
+  const slide = slideAt(cues, time);
+  const activeCue = activeCueAt(cues, time);
+  const currentChapter = chapterAt(meta.chapters, time);
+
+  const [videoVisible, setVideoVisible] = useState(true);
+  const [activeExplorable, setActiveExplorable] = useState<ExplorableRef | null>(null);
+  const [resumePoint, setResumePoint] = useState<{ time: number; playing: boolean } | null>(null);
+  const [openedExercises, setOpenedExercises] = useState<Record<string, boolean>>({});
+
+  const exercise = transcript.exercises.find((item) => item.after_slide === slide) ?? null;
+  const explorable =
+    transcript.explorables.find((item) => item.slide === slide && time >= item.at) ?? null;
+
+  const step = (direction: 1 | -1) => {
+    const target = nextSlide(cues, slide, direction, meta.slides.count);
+    const at = firstTimeOfSlide(cues, target);
+    if (at !== null) onSeek(at);
+  };
+
+  const openExplorable = (item: ExplorableRef) => {
+    setResumePoint({ time, playing });
+    onPause();
+    setActiveExplorable(item);
+  };
+
+  const closeExplorable = () => {
+    const saved = resumePoint;
+    setResumePoint(null);
+    setActiveExplorable(null);
+    if (saved) {
+      onSeek(saved.time);
+      if (saved.playing) onPlay();
+    }
+  };
+
+  const openExercise = (item: Exercise) => {
+    onPause();
+    setOpenedExercises((previous) => ({ ...previous, [item.problem]: true }));
+    window.open(item.url, "_blank", "noopener,noreferrer");
+  };
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (activeExplorable) return;
+      const tag = (event.target as HTMLElement | null)?.tagName;
+      if (tag && ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(tag)) return;
+
+      if (event.key === " ") {
+        event.preventDefault();
+        onToggle();
+        return;
+      }
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const target = nextSlide(cues, slide, direction, meta.slides.count);
+        const at = firstTimeOfSlide(cues, target);
+        if (at !== null) onSeek(at);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activeExplorable, cues, meta.slides.count, onSeek, onToggle, slide]);
+
+  const pdfHref = `${baseUrl}course/lectures/${meta.id}/${meta.slides.pdf}`;
+
+  return (
+    <main className="player">
+      <header className="player__head">
+        <a className="player__back" href="#/">
+          ← Course map
+        </a>
+        <div className="player__titles">
+          <p className="player__course">{meta.source.course}</p>
+          <h1>{meta.title}</h1>
+        </div>
+        <div className="player__links">
+          <a href={pdfHref} download>
+            Slides (PDF)
+          </a>
+        </div>
+      </header>
+
+      <div className="player__body">
+        <aside className="rail">
+          <Chapters chapters={meta.chapters} current={currentChapter} onSeek={onSeek} />
+        </aside>
+
+        <div className="stage">
+          <SlideStage
+            meta={meta}
+            baseUrl={baseUrl}
+            slide={slide}
+            videoRef={videoRef}
+            onLoadedMetadata={onLoadedMetadata}
+            onVideoError={onVideoError ?? (() => {})}
+            videoVisible={videoVisible}
+            onToggleVideo={() => setVideoVisible((visible) => !visible)}
+            mediaError={mediaError}
+          />
+
+          <div className="stage__cards">
+            {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
+            {explorable ? (
+              <button type="button" className="card-try" onClick={() => openExplorable(explorable)}>
+                {explorable.label}
+              </button>
+            ) : null}
+            {Object.keys(openedExercises).length > 0 ? (
+              <p className="stage__hint" role="status">
+                Question opened in a new tab. Your place here is kept.
+              </p>
+            ) : null}
+          </div>
+
+          <Transport
+            time={time}
+            duration={duration}
+            playing={playing}
+            rate={rate}
+            onToggle={onToggle}
+            onSeek={onSeek}
+            onRate={onRate}
+            onStep={step}
+          />
+        </div>
+
+        <aside className="panel">
+          <Captions cues={cues} active={activeCue} onSeek={onSeek} />
+        </aside>
+      </div>
+
+      <Attribution source={meta.source} />
+
+      {activeExplorable ? (
+        <ExplorableOverlay explorable={activeExplorable} onClose={closeExplorable} />
+      ) : null}
+
+      {resumedAt !== null ? (
+        <div className="toast" role="status">
+          Resumed at {formatTime(resumedAt)}
+        </div>
+      ) : null}
+    </main>
+  );
+}

@@ -1,0 +1,8 @@
+University of Michigan Math 214 (Applied Linear Algebra) — Lecture 1a
+Instructor: David E. Speyer
+Title: Introduction to linear algebra
+Course page: https://sites.lsa.umich.edu/speyer/conferences/linear-algebra-videos/
+Slides (11 pages): https://sites.lsa.umich.edu/speyer/wp-content/uploads/sites/1332/2024/08/Lecture1a.pdf
+Video (14:01): https://www.youtube.com/watch?v=Cu5v0QY6cmk
+YouTube channel: https://www.youtube.com/@Math-jz8tx
+The materials are released on the open internet and intended to remain public, but the page does not state a standard Creative Commons license. Use with attribution and link back to the original course and video.
