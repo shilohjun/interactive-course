@@ -14,3 +14,6 @@ internal/
 
 # Internal briefing notes must not be published
 给dsh的回复.md
+
+# Local deploy staging
+.tmp-*
