@@ -17,3 +17,6 @@ internal/
 
 # Local deploy staging
 .tmp-*
+
+# Local design inspection artifacts
+.taste-skill/
