@@ -2,36 +2,52 @@
   "site": {
     "title": "Interactive Course",
     "tagline": "A lecture you can stop, rewind, and take apart.",
-    "attribution": "Built on public course materials. Speyer Math 214 © David E. Speyer, used with attribution and linked back; no Creative Commons license is claimed."
+    "attribution": "Math 214 © David E. Speyer, University of Michigan, used with attribution and linked back; no Creative Commons license is claimed. MAT3007 © Rui Chen, CUHK-Shenzhen, used with attribution for this course demo.",
+    "playerNote": "One clock: the video's current time drives the slide, the transcript, and the chapter list. Click a sentence to jump; open an explorable and return to the same second."
   },
-  "courses": [
+  "shelf": [
     {
-      "id": "speyer-214",
-      "title": "Applied Linear Algebra",
-      "institution": "University of Michigan · Math 214",
+      "id": "speyer-1a",
+      "code": "Math 214",
+      "course": "Applied Linear Algebra",
+      "title": "1a · Introduction to linear algebra",
+      "institution": "University of Michigan",
       "instructor": "David E. Speyer",
-      "blurb": "One 14-minute lecture, cut into six chapters: what linear algebra is, and four reasons it is worth a term.",
       "status": "live",
-      "lectures": [
-        {
-          "id": "speyer-1a",
-          "title": "1a · Introduction to linear algebra",
-          "duration": 841,
-          "slides": 11,
-          "chapters": 6,
-          "thumbnail": "slides/06.webp",
-          "status": "live"
-        }
-      ]
+      "href": "/lecture/speyer-1a",
+      "cover": { "src": "course/lectures/speyer-1a/slides/06.webp" },
+      "meta": "14:01 · 11 slides · 6 chapters",
+      "sourceNote": "Math 214 · Applied Linear Algebra, University of Michigan",
+      "sourceUrl": "https://sites.lsa.umich.edu/speyer/conferences/linear-algebra-videos/",
+      "videoUrl": "https://www.youtube.com/watch?v=Cu5v0QY6cmk",
+      "licenseNote": "Public course material with no Creative Commons license stated. The video is re-cut with attribution and links back to the original."
+    },
+    {
+      "id": "speyer-1b",
+      "code": "Math 214",
+      "course": "Applied Linear Algebra",
+      "title": "1b · Solving linear systems",
+      "institution": "University of Michigan",
+      "instructor": "David E. Speyer",
+      "status": "soon",
+      "cover": { "kicker": "Math 214", "big": "Lecture 1b", "small": "In preparation" },
+      "meta": "In preparation",
+      "sourceNote": "Math 214 · Applied Linear Algebra, University of Michigan",
+      "sourceUrl": "https://sites.lsa.umich.edu/speyer/conferences/linear-algebra-videos/",
+      "licenseNote": "The next public lecture in the same course. The pack is not built yet."
     },
     {
       "id": "mat3007",
-      "title": "Optimization",
-      "institution": "CUHK-Shenzhen · MAT3007",
+      "code": "MAT3007",
+      "course": "Optimization",
+      "title": "Optimality Conditions for Constrained Problems",
+      "institution": "CUHK-Shenzhen",
       "instructor": "Rui Chen",
-      "blurb": "Narrated from slides18, with a constraint explorable. Same player, no new code.",
       "status": "soon",
-      "lectures": []
+      "cover": { "src": "course/lectures/mat3007/slides/01.webp" },
+      "meta": "slides18 · in preparation",
+      "sourceNote": "MAT3007 · Optimization, CUHK-Shenzhen, 18 Nov 2026",
+      "licenseNote": "Course slides used with permission for this course demo; no license is claimed."
     }
   ]
 }

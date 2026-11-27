@@ -5,12 +5,25 @@ type ChaptersProps = {
   chapters: Chapter[];
   current: Chapter | null;
   onSelect: (chapter: Chapter) => void;
+  onClose?: () => void;
 };
 
-export function Chapters({ chapters, current, onSelect }: ChaptersProps) {
+export function Chapters({ chapters, current, onSelect, onClose }: ChaptersProps) {
   return (
-    <nav aria-label="Chapters">
-      <p className="chapters__title">Chapters</p>
+    <nav aria-label="Chapters" className="chapters-nav">
+      <header className="panel-head">
+        <p>Chapters</p>
+        {onClose ? (
+          <button
+            type="button"
+            className="panel-close"
+            onClick={onClose}
+            aria-label="Close chapters"
+          >
+            Close
+          </button>
+        ) : null}
+      </header>
       <ol className="chapters">
         {chapters.map((chapter) => (
           <li key={chapter.id}>

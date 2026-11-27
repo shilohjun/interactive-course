@@ -10,7 +10,7 @@ export function SlideStage({ meta, baseUrl, slide }: SlideStageProps) {
   const src = `${baseUrl}course/lectures/${meta.id}/slides/${String(slide).padStart(2, "0")}.webp`;
 
   return (
-    <figure className="slide-mat">
+    <figure className="board">
       <img src={src} alt={`Slide ${slide} of ${meta.slides.count}`} />
     </figure>
   );

@@ -11,8 +11,8 @@ async function loadJson<T>(path: string): Promise<T> {
 
 export async function loadCourseIndex(): Promise<CourseIndex> {
   const data = await loadJson<CourseIndex>("course/course.json");
-  if (!data || !Array.isArray(data.courses)) {
-    throw new Error("course.json is missing a courses array");
+  if (!data || !Array.isArray(data.shelf)) {
+    throw new Error("course.json is missing a shelf array");
   }
   return data;
 }

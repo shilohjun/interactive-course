@@ -11,12 +11,13 @@ import {
 import { Chapters } from "./Chapters";
 import { Captions } from "./Captions";
 import { Transport } from "./Transport";
-import { TimeRuler } from "./TimeRuler";
 import { SlideStage } from "./SlideStage";
 import { VideoPane } from "./VideoPane";
 import { ExerciseCard } from "./ExerciseCard";
 import { ExplorableOverlay } from "./ExplorableOverlay";
-import { Attribution } from "./Attribution";
+import { InfoPanel } from "./InfoPanel";
+
+type Panel = "chapters" | "transcript" | "info" | null;
 
 export type PlayerViewProps = {
   meta: LectureMeta;
@@ -64,14 +65,23 @@ export function PlayerView({
     (cues.length > 0 && time < cues[0].start ? cues[0] : null);
   const currentChapter = chapterAt(meta.chapters, time);
 
-  const [videoVisible, setVideoVisible] = useState(false);
+  const [panel, setPanel] = useState<Panel>(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return "transcript";
+    }
+    return window.matchMedia("(max-width: 900px)").matches ? null : "transcript";
+  });
+  const [videoOpen, setVideoOpen] = useState(false);
   const [activeExplorable, setActiveExplorable] = useState<ExplorableRef | null>(null);
   const [resumePoint, setResumePoint] = useState<{ time: number; playing: boolean } | null>(null);
-  const [openedExercises, setOpenedExercises] = useState<Record<string, boolean>>({});
 
   const exercise = transcript.exercises.find((item) => item.after_slide === slide) ?? null;
   const explorable =
     transcript.explorables.find((item) => item.slide === slide && time >= item.at) ?? null;
+
+  const togglePanel = (next: Exclude<Panel, null>) => {
+    setPanel((current) => (current === next ? null : next));
+  };
 
   const step = (direction: 1 | -1) => {
     const target = nextSlide(cues, slide, direction, meta.slides.count);
@@ -102,13 +112,17 @@ export function PlayerView({
 
   const openExercise = (item: Exercise) => {
     onPause();
-    setOpenedExercises((previous) => ({ ...previous, [item.problem]: true }));
     window.open(item.url, "_blank", "noopener,noreferrer");
   };
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (activeExplorable) return;
+      if (event.key === "Escape") {
+        setPanel(null);
+        setVideoOpen(false);
+        return;
+      }
       const tag = (event.target as HTMLElement | null)?.tagName;
       if (tag && ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(tag)) return;
 
@@ -132,93 +146,138 @@ export function PlayerView({
   const pdfHref = `${baseUrl}course/lectures/${meta.id}/${meta.slides.pdf}`;
 
   return (
-    <main className="player">
+    <main className={`player${panel ? " player--panel" : ""}`}>
       <h1 className="sr-only">{meta.title}</h1>
 
-      <header className="bar player__bar">
+      <header className="bar player-bar">
         <a className="brand" href="#/">
-          interactive course
+          ← Courses
         </a>
-        <p className="bar__crumb">
+        <p className="player-crumb">
           {meta.source.course} <span>/</span> {meta.title}
         </p>
-        <div className="bar__actions">
+        <div className="bar-actions">
           <button
             type="button"
-            className="bar__button"
-            onClick={() => setVideoVisible((visible) => !visible)}
-            aria-expanded={videoVisible}
+            className={panel === "chapters" ? "is-active" : undefined}
+            onClick={() => togglePanel("chapters")}
+            aria-expanded={panel === "chapters"}
+          >
+            Chapters
+          </button>
+          <button
+            type="button"
+            className={panel === "transcript" ? "is-active" : undefined}
+            onClick={() => togglePanel("transcript")}
+            aria-expanded={panel === "transcript"}
+          >
+            Transcript
+          </button>
+          <button
+            type="button"
+            className={videoOpen ? "is-active" : undefined}
+            onClick={() => setVideoOpen((open) => !open)}
+            aria-expanded={videoOpen}
           >
             Lecture video
           </button>
-          <a className="bar__link" href={pdfHref} download>
-            Slides (PDF)
-          </a>
+          <button
+            type="button"
+            className={panel === "info" ? "is-active" : undefined}
+            onClick={() => togglePanel("info")}
+            aria-expanded={panel === "info"}
+          >
+            Info
+          </button>
         </div>
       </header>
 
-      {mediaError ? (
-        <p className="notice" role="status">
-          Video unavailable. The slides and transcript still work.
-        </p>
-      ) : null}
+      <div className="player-body">
+        <div className="board-area">
+          <div className="board-wrap">
+            <SlideStage meta={meta} baseUrl={baseUrl} slide={slide} />
 
-      <div className="player__body">
-        <aside className="rail">
-          <Chapters chapters={meta.chapters} current={currentChapter} onSelect={goToChapter} />
-        </aside>
+            {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
 
-        <section className="stage">
-          <SlideStage meta={meta} baseUrl={baseUrl} slide={slide} />
+            {explorable ? (
+              <button type="button" className="try" onClick={() => openExplorable(explorable)}>
+                {explorable.label}
+              </button>
+            ) : null}
 
-          <TimeRuler
-            time={time}
-            duration={duration}
-            chapters={meta.chapters}
-            currentChapter={currentChapter}
-            onSeek={onSeek}
-          />
+            <VideoPane
+              meta={meta}
+              baseUrl={baseUrl}
+              videoRef={videoRef}
+              onLoadedMetadata={onLoadedMetadata}
+              onVideoError={onVideoError ?? (() => {})}
+              visible={videoOpen}
+              onToggle={() => setVideoOpen(false)}
+            />
+          </div>
 
-          <Transport
-            time={time}
-            duration={duration}
-            playing={playing}
-            rate={rate}
-            onToggle={onToggle}
-            onRate={onRate}
-            onStep={step}
-          />
-
-          {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
-
-          {explorable ? (
-            <button type="button" className="try" onClick={() => openExplorable(explorable)}>
-              {explorable.label}
-            </button>
-          ) : null}
-
-          {Object.keys(openedExercises).length > 0 ? (
-            <p className="stage__hint" role="status">
-              Question opened in a new tab. Your place here is kept.
+          {mediaError ? (
+            <p className="player-notice" role="status">
+              Video unavailable. The slides and transcript still work.
             </p>
           ) : null}
-        </section>
+        </div>
 
-        <aside className="panel">
-          <VideoPane
-            meta={meta}
-            baseUrl={baseUrl}
-            videoRef={videoRef}
-            onLoadedMetadata={onLoadedMetadata}
-            onVideoError={onVideoError ?? (() => {})}
-            visible={videoVisible}
-            onToggle={() => setVideoVisible((visible) => !visible)}
-          />
-          <Captions cues={cues} active={activeCue} onSeek={onSeek} />
-        </aside>
+        {panel ? (
+          <aside className={`side-panel side-panel--${panel}`}>
+            {panel === "chapters" ? (
+              <Chapters
+                chapters={meta.chapters}
+                current={currentChapter}
+                onSelect={goToChapter}
+                onClose={() => setPanel(null)}
+              />
+            ) : null}
+            {panel === "transcript" ? (
+              <Captions
+                cues={cues}
+                active={activeCue}
+                onSeek={onSeek}
+                onClose={() => setPanel(null)}
+              />
+            ) : null}
+            {panel === "info" ? (
+              <InfoPanel meta={meta} pdfHref={pdfHref} onClose={() => setPanel(null)} />
+            ) : null}
+          </aside>
+        ) : null}
       </div>
 
-      <Attribution source={meta.source} />
+      <div className="player-bottom">
+        <div className="caption">
+          <span className="caption__time">
+            {activeCue ? formatTime(activeCue.start) : formatTime(time)}
+          </span>
+          <p className="caption__text">
+            {activeCue ? activeCue.text : "No transcript line at this point."}
+          </p>
+          <button
+            type="button"
+            className="caption__open"
+            onClick={() => togglePanel("transcript")}
+          >
+            Transcript
+          </button>
+        </div>
+
+        <Transport
+          time={time}
+          duration={duration}
+          playing={playing}
+          rate={rate}
+          chapters={meta.chapters}
+          currentChapter={currentChapter}
+          onToggle={onToggle}
+          onSeek={onSeek}
+          onRate={onRate}
+          onStep={step}
+        />
+      </div>
 
       {activeExplorable ? (
         <ExplorableOverlay explorable={activeExplorable} onClose={closeExplorable} />

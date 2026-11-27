@@ -55,24 +55,28 @@ export type Transcript = {
   explorables: ExplorableRef[];
 };
 
-export type LectureEntry = {
-  id: string;
-  title: string;
-  duration: number;
-  slides: number;
-  chapters: number;
-  thumbnail?: string;
-  status: "live" | "soon";
+export type ShelfCover = {
+  src?: string;
+  kicker?: string;
+  big?: string;
+  small?: string;
 };
 
-export type CourseEntry = {
+export type ShelfCard = {
   id: string;
+  code: string;
+  course: string;
   title: string;
   institution: string;
   instructor: string;
-  blurb?: string;
   status: "live" | "soon";
-  lectures: LectureEntry[];
+  href?: string;
+  cover: ShelfCover;
+  meta?: string;
+  sourceNote?: string;
+  sourceUrl?: string;
+  videoUrl?: string;
+  licenseNote?: string;
 };
 
 export type CourseIndex = {
@@ -80,6 +84,7 @@ export type CourseIndex = {
     title: string;
     tagline: string;
     attribution: string;
+    playerNote: string;
   };
-  courses: CourseEntry[];
+  shelf: ShelfCard[];
 };

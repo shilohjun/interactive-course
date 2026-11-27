@@ -98,6 +98,7 @@ describe("PlayerView", () => {
 
   it("seeks when a chapter is clicked", async () => {
     const { props } = setup();
+    await userEvent.click(screen.getByRole("button", { name: "Chapters" }));
     const chapters = screen.getByRole("navigation", { name: /chapters/i });
     await userEvent.click(
       within(chapters).getByRole("button", { name: /light travels in straight lines/i }),

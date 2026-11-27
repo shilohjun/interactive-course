@@ -22,6 +22,8 @@ test("the media clock drives slides, captions, and chapters", async ({ page }) =
     .toBeGreaterThan(177);
 
   const chapters = page.getByRole("navigation", { name: "Chapters" });
+  await page.getByRole("button", { name: "Chapters" }).click();
+  await expect(chapters).toBeVisible();
   await chapters.getByRole("button", { name: /Light travels in straight lines/i }).click();
   await expect(page.getByAltText(/slide 9 of 11/i)).toBeVisible();
 

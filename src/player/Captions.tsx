@@ -6,9 +6,10 @@ type CaptionsProps = {
   cues: Cue[];
   active: Cue | null;
   onSeek: (time: number) => void;
+  onClose?: () => void;
 };
 
-export function Captions({ cues, active, onSeek }: CaptionsProps) {
+export function Captions({ cues, active, onSeek, onClose }: CaptionsProps) {
   const listRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
@@ -29,7 +30,17 @@ export function Captions({ cues, active, onSeek }: CaptionsProps) {
     <section className="transcript" role="region" aria-label="Transcript">
       <header className="transcript__head">
         <span>Transcript</span>
-        <span>English</span>
+        <span className="transcript__meta">English</span>
+        {onClose ? (
+          <button
+            type="button"
+            className="panel-close"
+            onClick={onClose}
+            aria-label="Close transcript"
+          >
+            Close
+          </button>
+        ) : null}
       </header>
       <ol className="cues" ref={listRef}>
         {cues.map((cue, index) => (
