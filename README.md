@@ -81,15 +81,14 @@ Speyer 视频没有任何字幕轨，英文字幕由 Whisper 生成后逐句校�
 
 ## 部署（人工执行）
 
-设计约定：dsh 只交构建产物和部署文件，**不直接改服务器、不碰 Nginx 根路径、不碰步步解**。
+部署由人执行。脚本只把本项目同步到 `/opt/interactive-course/current/`。
 
 1. 构建机执行 `bash deploy/deploy.sh user@101.33.230.189`。脚本会 `npm ci`、拉视频、构建，然后 rsync 到 `/opt/interactive-course/current/`。
-2. 在服务器上把 [`deploy/nginx-course.conf`](deploy/nginx-course.conf) 放进现有的 `server {}`，`nginx -t && systemctl reload nginx`。只新增 `/course`，保留已有 `/` → 5173。
+2. 在服务器上把 [`deploy/nginx-course.conf`](deploy/nginx-course.conf) 放进现有的 `server {}`，`nginx -t && systemctl reload nginx`。只新增 `/course`。
 3. 安装 [`deploy/course.service`](deploy/course.service)，`systemctl enable --now course`。服务只监听 `127.0.0.1:5174`。
 4. 打开 `http://101.33.230.189/course/`，按 [`docs/demo-script.md`](docs/demo-script.md) 走一遍。
-5. 确认 `http://101.33.230.189/` 的步步解仍然正常。
 
-`/course` 必须 301 到 `/course/`；构建 `base` 固定为 `/course/`，避免资源打到根路径。
+`/course` 必须 301 到 `/course/`；构建 `base` 固定为 `/course/`。
 
 ## 署名与许可
 
