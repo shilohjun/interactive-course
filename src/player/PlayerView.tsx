@@ -11,6 +11,7 @@ import {
 import { Chapters } from "./Chapters";
 import { Captions } from "./Captions";
 import { Transport } from "./Transport";
+import { TimeRuler } from "./TimeRuler";
 import { SlideStage } from "./SlideStage";
 import { VideoPane } from "./VideoPane";
 import { ExerciseCard } from "./ExerciseCard";
@@ -63,7 +64,7 @@ export function PlayerView({
     (cues.length > 0 && time < cues[0].start ? cues[0] : null);
   const currentChapter = chapterAt(meta.chapters, time);
 
-  const [videoVisible, setVideoVisible] = useState(true);
+  const [videoVisible, setVideoVisible] = useState(false);
   const [activeExplorable, setActiveExplorable] = useState<ExplorableRef | null>(null);
   const [resumePoint, setResumePoint] = useState<{ time: number; playing: boolean } | null>(null);
   const [openedExercises, setOpenedExercises] = useState<Record<string, boolean>>({});
@@ -132,42 +133,51 @@ export function PlayerView({
 
   return (
     <main className="player">
-      <header className="player__head">
-        <a className="player__back" href="#/">
-          ← Course map
+      <h1 className="sr-only">{meta.title}</h1>
+
+      <header className="bar player__bar">
+        <a className="brand" href="#/">
+          interactive course
         </a>
-        <div className="player__titles">
-          <p className="player__course">{meta.source.course}</p>
-          <h1>{meta.title}</h1>
-        </div>
-        <div className="player__links">
-          <a href={pdfHref} download>
+        <p className="bar__crumb">
+          {meta.source.course} <span>/</span> {meta.title}
+        </p>
+        <div className="bar__actions">
+          <button
+            type="button"
+            className="bar__button"
+            onClick={() => setVideoVisible((visible) => !visible)}
+            aria-expanded={videoVisible}
+          >
+            Lecture video
+          </button>
+          <a className="bar__link" href={pdfHref} download>
             Slides (PDF)
           </a>
         </div>
       </header>
+
+      {mediaError ? (
+        <p className="notice" role="status">
+          Video unavailable. The slides and transcript still work.
+        </p>
+      ) : null}
 
       <div className="player__body">
         <aside className="rail">
           <Chapters chapters={meta.chapters} current={currentChapter} onSelect={goToChapter} />
         </aside>
 
-        <div className="stage">
+        <section className="stage">
           <SlideStage meta={meta} baseUrl={baseUrl} slide={slide} />
 
-          <div className="stage__cards">
-            {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
-            {explorable ? (
-              <button type="button" className="card-try" onClick={() => openExplorable(explorable)}>
-                {explorable.label}
-              </button>
-            ) : null}
-            {Object.keys(openedExercises).length > 0 ? (
-              <p className="stage__hint" role="status">
-                Question opened in a new tab. Your place here is kept.
-              </p>
-            ) : null}
-          </div>
+          <TimeRuler
+            time={time}
+            duration={duration}
+            chapters={meta.chapters}
+            currentChapter={currentChapter}
+            onSeek={onSeek}
+          />
 
           <Transport
             time={time}
@@ -175,11 +185,24 @@ export function PlayerView({
             playing={playing}
             rate={rate}
             onToggle={onToggle}
-            onSeek={onSeek}
             onRate={onRate}
             onStep={step}
           />
-        </div>
+
+          {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
+
+          {explorable ? (
+            <button type="button" className="try" onClick={() => openExplorable(explorable)}>
+              {explorable.label}
+            </button>
+          ) : null}
+
+          {Object.keys(openedExercises).length > 0 ? (
+            <p className="stage__hint" role="status">
+              Question opened in a new tab. Your place here is kept.
+            </p>
+          ) : null}
+        </section>
 
         <aside className="panel">
           <VideoPane
@@ -190,7 +213,6 @@ export function PlayerView({
             onVideoError={onVideoError ?? (() => {})}
             visible={videoVisible}
             onToggle={() => setVideoVisible((visible) => !visible)}
-            mediaError={mediaError}
           />
           <Captions cues={cues} active={activeCue} onSeek={onSeek} />
         </aside>

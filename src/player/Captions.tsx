@@ -26,12 +26,12 @@ export function Captions({ cues, active, onSeek }: CaptionsProps) {
   }, [active]);
 
   return (
-    <section className="panel__inner" role="region" aria-label="Transcript">
-      <header className="panel__head">
+    <section className="transcript" role="region" aria-label="Transcript">
+      <header className="transcript__head">
         <span>Transcript</span>
-        <span>{cues.length} lines</span>
+        <span>English</span>
       </header>
-      <ol className="captions" ref={listRef}>
+      <ol className="cues" ref={listRef}>
         {cues.map((cue, index) => (
           <li key={`${cue.start}-${index}`}>
             <button

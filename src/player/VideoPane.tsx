@@ -8,7 +8,6 @@ type VideoPaneProps = {
   onVideoError: () => void;
   visible: boolean;
   onToggle: () => void;
-  mediaError: boolean;
 };
 
 export function VideoPane({
@@ -19,26 +18,23 @@ export function VideoPane({
   onVideoError,
   visible,
   onToggle,
-  mediaError,
 }: VideoPaneProps) {
   const pack = `${baseUrl}course/lectures/${meta.id}/`;
 
   return (
-    <section className="video-pane" aria-label="Lecture video">
-      <header className="video-pane__head">
-        <span>Lecture video</span>
-        <button type="button" onClick={onToggle} aria-pressed={visible}>
-          {visible ? "Hide" : "Show"}
-        </button>
-      </header>
-      {mediaError ? (
-        <p className="video-pane__notice" role="status">
-          Video unavailable. The slides and transcript still work.
-        </p>
+    <section className="video" aria-label="Lecture video">
+      {visible ? (
+        <header className="video__header">
+          <span>Lecture video</span>
+          <button type="button" onClick={onToggle}>
+            Hide
+          </button>
+        </header>
       ) : null}
       <video
         ref={videoRef}
-        className={visible ? "video-pane__video" : "video-pane__video video-pane__video--off"}
+        className="video__el"
+        hidden={!visible}
         src={`${baseUrl}media/${meta.media.file}`}
         poster={`${pack}poster.jpg`}
         playsInline

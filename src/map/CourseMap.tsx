@@ -8,89 +8,97 @@ function formatDuration(seconds: number): string {
   return `${minutes}:${String(total % 60).padStart(2, "0")}`;
 }
 
-const ROUTE = [
-  { label: "Watch", note: "the argument, chapter by chapter" },
-  { label: "Stop", note: "on any slide, any sentence" },
-  { label: "Try", note: "an explorable under your hand" },
-  { label: "Ask", note: "a Socratic question in a new tab" },
-];
-
 export function CourseMapView({ data }: { data: CourseIndex }) {
+  const base = import.meta.env.BASE_URL;
+
   return (
     <main className="page">
-      <header className="head">
-        <a className="mark" href="#/" aria-label="Interactive Course home">
-          <span>IC</span>
+      <header className="bar home__bar">
+        <a className="brand" href="#/">
+          interactive course
         </a>
-        <span className="head__note">A shared player for recorded lectures</span>
+        <nav className="home__nav" aria-label="Site">
+          <a href="#/" aria-current="page">
+            Courses
+          </a>
+          <a href="#about">About</a>
+        </nav>
       </header>
 
-      <section className="hero">
-        <p className="eyebrow">Course prototype · Fall 2026</p>
-        <h1>
-          A lecture is a <em>map</em>,
-          <br />
-          not a video.
-        </h1>
-        <p className="lede">
-          Follow the argument, jump to the slide you need, and stop to try the
-          idea yourself. One player, three ways in: a lecture, an explorable,
-          and a question.
+      <section className="home__intro">
+        <h1>Courses</h1>
+        <p>
+          Two courses, one player. Watch the lecture, follow the transcript, and stop
+          to try the idea.
         </p>
       </section>
 
-      <ol className="route" aria-label="How a lecture works">
-        {ROUTE.map((step, index) => (
-          <li className="route__step" key={step.label}>
-            <span className="route__num">{String(index + 1).padStart(2, "0")}</span>
-            <span className="route__label">{step.label}</span>
-            <span className="route__note">{step.note}</span>
-          </li>
-        ))}
-      </ol>
-
-      <section className="courses" aria-labelledby="courses-title">
-        <div className="section-head">
-          <h2 id="courses-title">Courses</h2>
-          <span>Same player, different pack</span>
-        </div>
-
-        <div className="course-grid">
-          {data.courses.map((course) => (
-            <article className={`course course--${course.status}`} key={course.id}>
-              <p className="course__inst">{course.institution}</p>
-              <h3>{course.title}</h3>
+      <section className="catalog" aria-label="Course catalog">
+        {data.courses.map((course) => (
+          <article className="course" key={course.id}>
+            <div className="course__intro">
+              <p className="course__meta">{course.institution}</p>
+              <h2>{course.title}</h2>
               <p className="course__by">{course.instructor}</p>
               {course.blurb ? <p className="course__blurb">{course.blurb}</p> : null}
+            </div>
 
+            <div className="course__lectures">
               {course.status === "live" ? (
                 <ul className="lectures">
                   {course.lectures.map((lecture) => (
                     <li key={lecture.id}>
                       <a className="lecture" href={`#/lecture/${lecture.id}`}>
-                        <span className="lecture__title">{lecture.title}</span>
-                        <span className="lecture__meta">
-                          {formatDuration(lecture.duration)} · {lecture.slides} slides ·{" "}
-                          {lecture.chapters} chapters
+                        <span className="lecture__media">
+                          <img
+                            className="lecture__thumb"
+                            src={`${base}course/lectures/${lecture.id}/${lecture.thumbnail ?? "slides/01.webp"}`}
+                            alt={`Preview of ${lecture.title}`}
+                            loading="lazy"
+                          />
+                          <span className="lecture__play" aria-hidden="true">
+                            <svg viewBox="0 0 12 12" width="12" height="12">
+                              <path d="M3 1.5 10 6 3 10.5Z" fill="currentColor" />
+                            </svg>
+                          </span>
                         </span>
-                        <span className="lecture__arrow" aria-hidden="true">
-                          →
+                        <span className="lecture__body">
+                          <span className="lecture__title">{lecture.title}</span>
+                          <span className="lecture__meta">
+                            {formatDuration(lecture.duration)} · {lecture.slides} slides ·{" "}
+                            {lecture.chapters} chapters
+                          </span>
                         </span>
                       </a>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="course__soon">In preparation · same player, new pack</p>
+                <p className="course__soon">In preparation</p>
               )}
-            </article>
-          ))}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="about" id="about" aria-labelledby="about-title">
+        <h2 id="about-title">About this player</h2>
+        <div>
+          <p>
+            Every lecture keeps one clock: the video's current time drives the slide,
+            the transcript, and the chapter list. Click any sentence to jump; open an
+            explorable and return to the same second.
+          </p>
+          <p>
+            Exercises open in a new tab, and your place here is kept. Attribution and
+            source links sit under every lecture.
+          </p>
         </div>
       </section>
 
       <footer className="foot">
         <p>{data.site.attribution}</p>
-        <p className="foot__note">Drawn from public course material. No license claimed.</p>
+        <p>Built with the course player. No license claimed.</p>
       </footer>
     </main>
   );
@@ -106,8 +114,8 @@ export function CourseMap() {
       .then((next) => {
         if (active) setData(next);
       })
-      .catch((err: unknown) => {
-        if (active) setError(err instanceof Error ? err.message : "Could not load the course map.");
+      .catch((reason: unknown) => {
+        if (active) setError(reason instanceof Error ? reason.message : "Could not load the course map.");
       });
     return () => {
       active = false;

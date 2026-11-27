@@ -61,6 +61,7 @@ export type LectureEntry = {
   duration: number;
   slides: number;
   chapters: number;
+  thumbnail?: string;
   status: "live" | "soon";
 };
 

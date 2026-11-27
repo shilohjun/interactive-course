@@ -35,7 +35,7 @@ export function ExplorableOverlay({ explorable, onClose }: ExplorableOverlayProp
             onClick={onClose}
             aria-label="Close explorable"
           >
-            ×
+            Close
           </button>
         </header>
         <div className="overlay__body">

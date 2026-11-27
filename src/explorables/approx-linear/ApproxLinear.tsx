@@ -80,7 +80,7 @@ export function ApproxLinear() {
   return (
     <div className="explorable">
       <div className="explorable__copy">
-        <p className="explorable__eyebrow">Interactive · one variable</p>
+        <p className="explorable__eyebrow">One variable</p>
         <p className="explorable__lede">
           Drag the point. Close to x₀ the curve and its tangent agree. Move away, and
           they part.

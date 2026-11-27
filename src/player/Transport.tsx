@@ -6,12 +6,28 @@ type TransportProps = {
   playing: boolean;
   rate: number;
   onToggle: () => void;
-  onSeek: (time: number) => void;
   onRate: (rate: number) => void;
   onStep: (direction: 1 | -1) => void;
 };
 
 const RATES = [1, 1.25, 1.5];
+
+function PlayIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+      <path d="M3 1.5 10 6 3 10.5Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function PauseIcon() {
+  return (
+    <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+      <rect x="2.5" y="1.5" width="2.5" height="9" fill="currentColor" />
+      <rect x="7" y="1.5" width="2.5" height="9" fill="currentColor" />
+    </svg>
+  );
+}
 
 export function Transport({
   time,
@@ -19,13 +35,9 @@ export function Transport({
   playing,
   rate,
   onToggle,
-  onSeek,
   onRate,
   onStep,
 }: TransportProps) {
-  const max = Math.max(duration, 1);
-  const value = Math.min(Math.max(time, 0), max);
-
   return (
     <div className="transport">
       <button
@@ -34,24 +46,12 @@ export function Transport({
         onClick={onToggle}
         aria-label={playing ? "Pause" : "Play"}
       >
-        {playing ? "❚❚" : "▶"}
+        {playing ? <PauseIcon /> : <PlayIcon />}
       </button>
 
-      <span className="transport__time">
-        {formatTime(time)}
-        <span className="transport__duration"> / {formatTime(duration)}</span>
-      </span>
-
-      <input
-        className="transport__range"
-        type="range"
-        min={0}
-        max={max}
-        step={0.1}
-        value={value}
-        aria-label="Seek"
-        onChange={(event) => onSeek(Number(event.target.value))}
-      />
+      <p className="transport__time">
+        {formatTime(time)} <span>/ {formatTime(duration)}</span>
+      </p>
 
       <div className="transport__steps">
         <button type="button" aria-label="Previous slide" onClick={() => onStep(-1)}>

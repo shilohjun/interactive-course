@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import type { LectureMeta, Transcript } from "../types";
@@ -103,6 +103,13 @@ describe("PlayerView", () => {
       within(chapters).getByRole("button", { name: /light travels in straight lines/i }),
     );
     expect(props.onSeek).toHaveBeenCalledWith(463);
+  });
+
+  it("seeks from the time ruler", () => {
+    const { props } = setup();
+    const ruler = screen.getByRole("slider", { name: "Seek" });
+    fireEvent.change(ruler, { target: { value: "420" } });
+    expect(props.onSeek).toHaveBeenCalledWith(420);
   });
 
   it("steps forward to the first cue of the next slide", async () => {

@@ -8,23 +8,25 @@ type ExerciseCardProps = {
 export function ExerciseCard({ exercise, onOpen }: ExerciseCardProps) {
   if (!exercise.problem) {
     return (
-      <aside className="card-ask card-ask--muted" aria-label="Practice question">
-        <p className="card-ask__kicker">Question</p>
-        <p className="card-ask__body">Question coming soon.</p>
+      <aside className="ask ask--muted" aria-label="Practice question">
+        <div>
+          <p className="ask__kicker">Question</p>
+          <p className="ask__body">Question coming soon.</p>
+        </div>
       </aside>
     );
   }
 
   return (
-    <aside className="card-ask" aria-label="Practice question">
+    <aside className="ask" aria-label="Practice question">
       <div>
-        <p className="card-ask__kicker">Question · after slide {exercise.after_slide}</p>
-        <p className="card-ask__body">
+        <p className="ask__kicker">Question · after slide {exercise.after_slide}</p>
+        <p className="ask__body">
           Work through the idea with a Socratic tutor. It gives hints, not answers.
         </p>
       </div>
       <a
-        className="card-ask__link"
+        className="ask__link"
         href={exercise.url}
         target="_blank"
         rel="noopener noreferrer"
@@ -33,7 +35,7 @@ export function ExerciseCard({ exercise, onOpen }: ExerciseCardProps) {
           onOpen(exercise);
         }}
       >
-        {exercise.label} ↗
+        {exercise.label}
       </a>
     </aside>
   );
