@@ -10,6 +10,7 @@
       "title": "Applied Linear Algebra",
       "institution": "University of Michigan · Math 214",
       "instructor": "David E. Speyer",
+      "blurb": "One 14-minute lecture, cut into six chapters: what linear algebra is, and four reasons it is worth a term.",
       "status": "live",
       "lectures": [
         {
@@ -17,7 +18,7 @@
           "title": "1a · Introduction to linear algebra",
           "duration": 841,
           "slides": 11,
-          "chapters": 5,
+          "chapters": 6,
           "status": "live"
         }
       ]
@@ -27,6 +28,7 @@
       "title": "Optimization",
       "institution": "CUHK-Shenzhen · MAT3007",
       "instructor": "Rui Chen",
+      "blurb": "Narrated from slides18, with a constraint explorable. Same player, no new code.",
       "status": "soon",
       "lectures": []
     }

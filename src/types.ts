@@ -69,6 +69,7 @@ export type CourseEntry = {
   title: string;
   institution: string;
   instructor: string;
+  blurb?: string;
   status: "live" | "soon";
   lectures: LectureEntry[];
 };

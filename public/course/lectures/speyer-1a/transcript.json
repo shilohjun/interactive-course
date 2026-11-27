@@ -1,0 +1,791 @@
+{
+ "cues": [
+  {
+   "start": 4.27,
+   "end": 12.99,
+   "slide": 1,
+   "text": "Hello, welcome to math 214 applied linear algebra, if you're looking for information about how this course will operate,",
+   "chapter": "what-is"
+  },
+  {
+   "start": 13.39,
+   "end": 17.21,
+   "slide": 1,
+   "text": "please read the syllabus on the Canvas page and on the course web page.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 19.11,
+   "end": 24.73,
+   "slide": 1,
+   "text": "What I want to do today is to talk about why do we think this course should exist?",
+   "chapter": "what-is"
+  },
+  {
+   "start": 26.11,
+   "end": 29.31,
+   "slide": 1,
+   "text": "What is linear algebra, why is it worth studying?",
+   "chapter": "what-is"
+  },
+  {
+   "start": 32.62,
+   "end": 37.26,
+   "slide": 2,
+   "text": "So algebraically, linear algebra is the study of linear equations.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 37.84,
+   "end": 43.66,
+   "slide": 2,
+   "text": "If you think back to high school algebra one, a linear equation is an equation like this one.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 44.6,
+   "end": 50.06,
+   "slide": 2,
+   "text": "Each variable appears just to a single power, not squared or cubed.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 50.48,
+   "end": 52.52,
+   "slide": 2,
+   "text": "No variables are multiplied by each other.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 52.66,
+   "end": 65.92,
+   "slide": 2,
+   "text": "We don't have xy. We don't have a lot of other things; all we have is our first variable times some constant, plus our second variable times some constant, plus our third variable, equal to something",
+   "chapter": "what-is"
+  },
+  {
+   "start": 65.92,
+   "end": 70.96,
+   "slide": 2,
+   "text": "So this is a linear equation that's the simplest kind of equation you could be thinking about",
+   "chapter": "what-is"
+  },
+  {
+   "start": 72.33,
+   "end": 86.77,
+   "slide": 3,
+   "text": "and geometrically, linear algebra studies flat, linear objects — things like points and lines and planes that's a little bit of a simplification.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 86.91,
+   "end": 91.33,
+   "slide": 3,
+   "text": "There will be some curved shapes showing up eventually, but you should think about it as geometric.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 91.33,
+   "end": 98.15,
+   "slide": 3,
+   "text": "We have a study of the simplest geometric shapes and algebraically, we have a study of the simplest equations.",
+   "chapter": "what-is"
+  },
+  {
+   "start": 100.01,
+   "end": 107.09,
+   "slide": 3,
+   "text": "And while it may be good to come into a course and be told that what you're learning is very simple, you might also wonder, is something that is",
+   "chapter": "what-is"
+  },
+  {
+   "start": 107.09,
+   "end": 110.81,
+   "slide": 4,
+   "text": "this simple interesting and can it be useful and can",
+   "chapter": "why"
+  },
+  {
+   "start": 110.81,
+   "end": 116.67,
+   "slide": 4,
+   "text": "it be interesting enough to fill up a whole term of material? And the answer is absolutely yes.",
+   "chapter": "why"
+  },
+  {
+   "start": 117.69,
+   "end": 130.82,
+   "slide": 5,
+   "text": "Linear algebra is one of those rare and wonderful areas of math where the demands of conceptual clarity and simplicity and the demands of",
+   "chapter": "why"
+  },
+  {
+   "start": 130.82,
+   "end": 134.14,
+   "slide": 5,
+   "text": "usefulness can be satisfied at the same time.",
+   "chapter": "why"
+  },
+  {
+   "start": 134.5,
+   "end": 136.8,
+   "slide": 5,
+   "text": "There's usually a tension between these things.",
+   "chapter": "why"
+  },
+  {
+   "start": 137.76,
+   "end": 141.78,
+   "slide": 5,
+   "text": "But linear algebra is an area which is both incredibly",
+   "chapter": "why"
+  },
+  {
+   "start": 142.62,
+   "end": 153.82,
+   "slide": 5,
+   "text": "clean and elegant and well-built and if you don't believe me after this term please feel free to take courses in some other areas of math and at the same time incredibly useful and practical and",
+   "chapter": "why"
+  },
+  {
+   "start": 153.82,
+   "end": 162.08,
+   "slide": 5,
+   "text": "shows up everywhere. And so what I want to do for this first lecture before we start getting into all the nitty gritty is talk about why does this work?",
+   "chapter": "why"
+  },
+  {
+   "start": 162.3,
+   "end": 164.86,
+   "slide": 5,
+   "text": "Why is it that something this simple can be useful?",
+   "chapter": "why"
+  },
+  {
+   "start": 166.57,
+   "end": 176.29,
+   "slide": 6,
+   "text": "So I'm going to give you four reasons and my first reason is one that you've learned in calculus which is that everything is approximately linear.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 178.0,
+   "end": 182.82,
+   "slide": 6,
+   "text": "We can have some very complicated curvy function like this blue curvy line here",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 184.28,
+   "end": 193.25,
+   "slide": 6,
+   "text": "and if we zoom in on it and look at just what happens inside this little circle then it looks much straighter. It's pretty close to this red line.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 193.99,
+   "end": 203.23,
+   "slide": 6,
+   "text": "If we zoom in one more time and blow up this small circle then it's almost the same as the red line and if we zoomed in one more time you wouldn't be able to see the difference.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 205.96,
+   "end": 211.98,
+   "slide": 6,
+   "text": "So this complicated blue curve zoomed in close up looks a lot like this straight red line.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 213.66,
+   "end": 222.06,
+   "slide": 6,
+   "text": "Now the main thing you learn in your first semester of calculus is how to calculate this red line, that is how to take a derivative,",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 222.56,
+   "end": 225.48,
+   "slide": 6,
+   "text": "and hopefully also why to calculate this red line.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 225.84,
+   "end": 228.18,
+   "slide": 6,
+   "text": "When should you take a derivative and what should you do with it?",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 229.12,
+   "end": 231.96,
+   "slide": 6,
+   "text": "But what I want to focus on right now is not either of those things.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 232.24,
+   "end": 235.4,
+   "slide": 6,
+   "text": "What I want to focus on right now is that our approximation is a line.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 236.72,
+   "end": 245.56,
+   "slide": 6,
+   "text": "And here we have its equation. The equation says that f of x, the complicated curve, is approximately given by this expression over here.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 246.14,
+   "end": 253.54,
+   "slide": 6,
+   "text": "And what you should look at is that the variable on the right hand side, the x, just appears linearly, not raised to a power or anything else.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 254.02,
+   "end": 257.18,
+   "slide": 6,
+   "text": "So this right hand side here is the equation of a line.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 259.61,
+   "end": 263.29,
+   "slide": 6,
+   "text": "Now, this here is some blue curve.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 263.49,
+   "end": 266.15,
+   "slide": 6,
+   "text": "It doesn't mean anything, just some artist free handed it.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 267.12,
+   "end": 271.83,
+   "slide": 6,
+   "text": "But this is actually true of lots and lots of curves in the real world.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 272.84,
+   "end": 279.46,
+   "slide": 7,
+   "text": "So here is the response of some metal, if you take a lot of it and stretch it out.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 281.16,
+   "end": 287.36,
+   "slide": 7,
+   "text": "So over here on the x-axis is how much has been stretched.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 287.74,
+   "end": 297.58,
+   "slide": 7,
+   "text": "And over here on the y-axis is how much stress it pulls back with, how much it resists being stretched out.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 299.2,
+   "end": 312.99,
+   "slide": 7,
+   "text": "And you can see as you stretch it more and more it pulls back harder and harder until finally around here you've permanently damaged the metal and it doesn't resist quite as much.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 312.99,
+   "end": 315.55,
+   "slide": 7,
+   "text": "if you keep pulling even more over here it snaps.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 317.68,
+   "end": 325.98,
+   "slide": 7,
+   "text": "So this is some pretty complicated curve, and material scientists spend lots of time measuring them by hand, or measuring them by machines.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 327.14,
+   "end": 336.93,
+   "slide": 7,
+   "text": "But the thing I want you to focus on right now is that as long as we're in this domain over here, where it's about two percent stretch or less.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 338.14,
+   "end": 349.55,
+   "slide": 7,
+   "text": "Here, the stress that you feel back is almost exactly given by this black tangent line.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 353.49,
+   "end": 362.12,
+   "slide": 7,
+   "text": "And for many, many purposes, your material is not stretching very much if it's built into some building or car or whatever.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 362.68,
+   "end": 367.3,
+   "slide": 7,
+   "text": "And so it's perfectly valid to approximate it by this linear stretching.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 368.34,
+   "end": 371.36,
+   "slide": 7,
+   "text": "And engineers get away with this all the time.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 371.44,
+   "end": 376.4,
+   "slide": 7,
+   "text": "They publish tables of the Young's modulus, which is the slope of this line for all these materials.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 377.64,
+   "end": 390.65,
+   "slide": 7,
+   "text": "And you could have some huge complex bridge with thousands, tens of thousands, millions of components all pulling on each other you could still approximate every one",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 390.65,
+   "end": 397.71,
+   "slide": 7,
+   "text": "of those stretching relationships as a linear relationship and hence you can use linear algebra to think about it",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 400.17,
+   "end": 409.7,
+   "slide": 8,
+   "text": "Now you could take a calculus course you can take two terms of calculus without really knowing any linear algebra here at Michigan, Math 115 and 116.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 410.91,
+   "end": 423.09,
+   "slide": 8,
+   "text": "But eventually you do need to learn linear algebra and why that happens is your first calculus course focuses on linear functions of one variable and so you approximate them by linear functions",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 423.09,
+   "end": 427.88,
+   "slide": 8,
+   "text": "of one variable and linear functions of one variable are very simple.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 428.08,
+   "end": 430.72,
+   "slide": 8,
+   "text": "There is not an extraordinary amount to know about them.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 431.78,
+   "end": 441.9,
+   "slide": 8,
+   "text": "Linear algebra is worth studying as its own subject when you have many functions of many variables and that's why 214 is numbered right before 215 multivariable calculus.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 443.84,
+   "end": 453.76,
+   "slide": 8,
+   "text": "But eventually when you have thousands and tens of thousands of things interacting and you're approximating them all linearly you want to sit down and learn okay how does linear algebra work",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 453.76,
+   "end": 461.07,
+   "slide": 8,
+   "text": "in the first place? So that's my reason one linear methods are powerful because everything is approximately linear.",
+   "chapter": "approximately-linear"
+  },
+  {
+   "start": 463.96,
+   "end": 469.8,
+   "slide": 9,
+   "text": "My reason two is that light, the thing we all see with, travels in straight lines.",
+   "chapter": "light"
+  },
+  {
+   "start": 471.31,
+   "end": 476.5,
+   "slide": 9,
+   "text": "So here we see a painter painting a subject.",
+   "chapter": "light"
+  },
+  {
+   "start": 477.82,
+   "end": 483.18,
+   "slide": 9,
+   "text": "He's got a wooden frame in front of him and in the middle of that wooden frame there's a pane of glass",
+   "chapter": "light"
+  },
+  {
+   "start": 484.03,
+   "end": 493.35,
+   "slide": 9,
+   "text": "And light comes in from the outside world and bounces off his subject and goes back to his eye and on its way there,",
+   "chapter": "light"
+  },
+  {
+   "start": 493.91,
+   "end": 496.07,
+   "slide": 9,
+   "text": "the light breaks the pane of the glass",
+   "chapter": "light"
+  },
+  {
+   "start": 498.91,
+   "end": 507.95,
+   "slide": 9,
+   "text": "And he takes his paint brush or stylus, whatever it is, and makes a mark on the glass where the light passes through the glass pane.",
+   "chapter": "light"
+  },
+  {
+   "start": 509.59,
+   "end": 520.51,
+   "slide": 9,
+   "text": "So the light traveling in the straight line and traveling in the next straight line is a linear geometric object and the pane of glass is a linear geometric object.",
+   "chapter": "light"
+  },
+  {
+   "start": 520.51,
+   "end": 527.03,
+   "slide": 9,
+   "text": "So you can think about this problem of where should I draw this man's ear as a problem of linear algebra.",
+   "chapter": "light"
+  },
+  {
+   "start": 531.52,
+   "end": 535.06,
+   "slide": 9,
+   "text": "Artists usually learn this intuitively, not by computation,",
+   "chapter": "light"
+  },
+  {
+   "start": 536.31,
+   "end": 539.11,
+   "slide": 9,
+   "text": "but CGI programs learn it by computation.",
+   "chapter": "light"
+  },
+  {
+   "start": 540.18,
+   "end": 542.84,
+   "slide": 9,
+   "text": "So what you see over here is Beauty and the Beast.",
+   "chapter": "light"
+  },
+  {
+   "start": 545.89,
+   "end": 548.89,
+   "slide": 9,
+   "text": "This one is Beauty and this one is the Beast.",
+   "chapter": "light"
+  },
+  {
+   "start": 551.26,
+   "end": 557.61,
+   "slide": 9,
+   "text": "And they are dancing in a beautiful ballroom",
+   "chapter": "light"
+  },
+  {
+   "start": 558.76,
+   "end": 571.76,
+   "slide": 9,
+   "text": "And as they are dancing the light is bouncing off them and bouncing into the lens of the virtual camera and breaking an imaginary pane in front of the",
+   "chapter": "light"
+  },
+  {
+   "start": 571.76,
+   "end": 577.29,
+   "slide": 9,
+   "text": "virtual camera and the software is drawing them exactly where the light breaks that pane.",
+   "chapter": "light"
+  },
+  {
+   "start": 578.81,
+   "end": 581.15,
+   "slide": 9,
+   "text": "You could also see some fun geometric effects here.",
+   "chapter": "light"
+  },
+  {
+   "start": 581.98,
+   "end": 589.5,
+   "slide": 9,
+   "text": "If you look at the floor of the ballroom, you'll see a rug and the rug has some parallel lines on it",
+   "chapter": "light"
+  },
+  {
+   "start": 591.29,
+   "end": 593.22,
+   "slide": 9,
+   "text": "but they don't look parallel to you.",
+   "chapter": "light"
+  },
+  {
+   "start": 594.04,
+   "end": 605.65,
+   "slide": 9,
+   "text": "They look like they meet at some point out in the distance because the plane of the rug, a flat geometric two-dimensional object is not parallel to the plane of the camera.",
+   "chapter": "light"
+  },
+  {
+   "start": 605.65,
+   "end": 613.52,
+   "slide": 9,
+   "text": "And that means parallel lines on this rug appear to converge somewhere in the distance.",
+   "chapter": "light"
+  },
+  {
+   "start": 614.18,
+   "end": 616.8,
+   "slide": 9,
+   "text": "And that is something you can think about through linear algebra.",
+   "chapter": "light"
+  },
+  {
+   "start": 620.18,
+   "end": 630.16,
+   "slide": 9,
+   "text": "Okay, so my reason number two why linear algebra is useful is that it comes up whenever you want to draw things, because light, which you use to see what you're drawing, moves in straight lines.",
+   "chapter": "light"
+  },
+  {
+   "start": 632.44,
+   "end": 634.34,
+   "slide": 10,
+   "text": "Reason number three,",
+   "chapter": "scale"
+  },
+  {
+   "start": 635.61,
+   "end": 642.75,
+   "slide": 10,
+   "text": "because when your algebra is so simple, it can be scaled up to very large problems.",
+   "chapter": "scale"
+  },
+  {
+   "start": 643.91,
+   "end": 652.49,
+   "slide": 10,
+   "text": "So I talked before about the example of a bridge built out of millions of bolts and beams and cables all pulling on each other.",
+   "chapter": "scale"
+  },
+  {
+   "start": 653.2,
+   "end": 661.39,
+   "slide": 10,
+   "text": "You could also imagine a database of medical data, hundreds of statistics about millions of people.",
+   "chapter": "scale"
+  },
+  {
+   "start": 662.13,
+   "end": 671.91,
+   "slide": 10,
+   "text": "if you want to analyze huge problems like this and extract trends from them you're not going to be able to deal with nonlinear methods.",
+   "chapter": "scale"
+  },
+  {
+   "start": 672.07,
+   "end": 675.33,
+   "slide": 10,
+   "text": "They're going to break down with this much data and this many variables.",
+   "chapter": "scale"
+  },
+  {
+   "start": 676.15,
+   "end": 684.43,
+   "slide": 10,
+   "text": "Whereas linear algebra can handle absolutely huge computations and this is why linear methods are so common in machine learning and data analysis and so forth.",
+   "chapter": "scale"
+  },
+  {
+   "start": 685.69,
+   "end": 692.39,
+   "slide": 10,
+   "text": "I've taught this course a couple of times now and in my experience Reason three is the reason that is of most interest to most of my students.",
+   "chapter": "scale"
+  },
+  {
+   "start": 693.5,
+   "end": 700.25,
+   "slide": 10,
+   "text": "So I want to promise you, I'm organizing this course like a math course, which means we're going to start with basic things.",
+   "chapter": "scale"
+  },
+  {
+   "start": 700.41,
+   "end": 705.15,
+   "slide": 10,
+   "text": "We're going to start with how do you solve linear equations, and we're going to build it in a sequential logical order.",
+   "chapter": "scale"
+  },
+  {
+   "start": 706.29,
+   "end": 715.49,
+   "slide": 10,
+   "text": "But we are getting there. The end of the course, we will be talking about how you use linear methods, the beginnings of how you use linear methods, so lots of good courses keep going after this",
+   "chapter": "scale"
+  },
+  {
+   "start": 715.49,
+   "end": 722.32,
+   "slide": 10,
+   "text": "one, to analyze very large problems and do this sort of data analysis.",
+   "chapter": "scale"
+  },
+  {
+   "start": 724.33,
+   "end": 730.7,
+   "slide": 11,
+   "text": "Finally, reason four. I said everything is approximately linear.",
+   "chapter": "nature"
+  },
+  {
+   "start": 732.03,
+   "end": 736.29,
+   "slide": 11,
+   "text": "When you get to the most fundamental equations of nature,",
+   "chapter": "nature"
+  },
+  {
+   "start": 737.45,
+   "end": 745.17,
+   "slide": 11,
+   "text": "or the equations of electromagnetism, gravity, quantum mechanics — in physics, of course — they are, to the best of our knowledge, exactly linear.",
+   "chapter": "nature"
+  },
+  {
+   "start": 745.7,
+   "end": 753.08,
+   "slide": 11,
+   "text": "So over here you see Newton's second law, F equals ma, written out as mass times the second derivative of position is the sum of forces.",
+   "chapter": "nature"
+  },
+  {
+   "start": 754.06,
+   "end": 762.24,
+   "slide": 11,
+   "text": "Here you see one of Maxwell's laws, relating the space variation of the electric field to the time variation of the magnetic field.",
+   "chapter": "nature"
+  },
+  {
+   "start": 762.76,
+   "end": 764.9,
+   "slide": 11,
+   "text": "Here you see Schrodinger's law from quantum mechanics.",
+   "chapter": "nature"
+  },
+  {
+   "start": 766.3,
+   "end": 768.96,
+   "slide": 11,
+   "text": "And all of these equations are linear equations.",
+   "chapter": "nature"
+  },
+  {
+   "start": 769.14,
+   "end": 773.02,
+   "slide": 11,
+   "text": "When we combine the forces, we just add them up. We don't square them or multiply them.",
+   "chapter": "nature"
+  },
+  {
+   "start": 773.47,
+   "end": 782.61,
+   "slide": 11,
+   "text": "There are a bunch of derivatives here which might be a little bit confusing, but you see that this E is not squared or cubed,",
+   "chapter": "nature"
+  },
+  {
+   "start": 782.67,
+   "end": 788.55,
+   "slide": 11,
+   "text": "I don't multiply one derivative of E by another, I just have one E here, which means this is a linear equation for the electric field.",
+   "chapter": "nature"
+  },
+  {
+   "start": 790.49,
+   "end": 801.22,
+   "slide": 11,
+   "text": "So my fourth reason is, as you get to what seems to be our most pure knowledge of nature, we find equations that are purely linear.",
+   "chapter": "nature"
+  },
+  {
+   "start": 802.98,
+   "end": 808.72,
+   "slide": 11,
+   "text": "Okay, so I've given you four reasons that linear algebra is useful.",
+   "chapter": "nature"
+  },
+  {
+   "start": 809.7,
+   "end": 815.1,
+   "slide": 11,
+   "text": "Everything is approximately linear, light is really, really, really close to being exactly linear,",
+   "chapter": "nature"
+  },
+  {
+   "start": 816.04,
+   "end": 822.22,
+   "slide": 11,
+   "text": "linear methods solve really big problems, and the most fundamental equations of nature seem to be exactly linear,",
+   "chapter": "nature"
+  },
+  {
+   "start": 823.27,
+   "end": 830.49,
+   "slide": 11,
+   "text": "And what we're going to do now is shift to something much more prosaic, which is how do we solve linear equations?",
+   "chapter": "nature"
+  },
+  {
+   "start": 831.31,
+   "end": 837.19,
+   "slide": 11,
+   "text": "So pause your video, take a stretch break, brew another cup of tea, and then come back and watch the next video.",
+   "chapter": "nature"
+  }
+ ],
+ "exercises": [
+  {
+   "after_slide": 3,
+   "label": "Start a question",
+   "problem": "LINALG1",
+   "url": "http://101.33.230.189/?problem=LINALG1"
+  }
+ ],
+ "explorables": [
+  {
+   "id": "approx-linear",
+   "at": 178,
+   "slide": 6,
+   "label": "Try it: everything is approximately linear",
+   "module": "approx-linear"
+  }
+ ]
+}

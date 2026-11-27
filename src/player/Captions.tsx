@@ -12,9 +12,17 @@ export function Captions({ cues, active, onSeek }: CaptionsProps) {
   const listRef = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
-    if (!active || !listRef.current) return;
-    const element = listRef.current.querySelector<HTMLElement>('[aria-current="true"]');
-    element?.scrollIntoView?.({ block: "center", behavior: "smooth" });
+    const list = listRef.current;
+    if (!active || !list) return;
+    const element = list.querySelector<HTMLElement>('[aria-current="true"]');
+    if (!element) return;
+    const listBox = list.getBoundingClientRect();
+    const cueBox = element.getBoundingClientRect();
+    const target =
+      list.scrollTop + (cueBox.top - listBox.top) - list.clientHeight / 2 + cueBox.height / 2;
+    if (typeof list.scrollTo === "function") {
+      list.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+    }
   }, [active]);
 
   return (

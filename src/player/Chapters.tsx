@@ -4,10 +4,10 @@ import { formatTime } from "../lib/timeline";
 type ChaptersProps = {
   chapters: Chapter[];
   current: Chapter | null;
-  onSeek: (time: number) => void;
+  onSelect: (chapter: Chapter) => void;
 };
 
-export function Chapters({ chapters, current, onSeek }: ChaptersProps) {
+export function Chapters({ chapters, current, onSelect }: ChaptersProps) {
   return (
     <nav className="rail__inner" aria-label="Chapters">
       <p className="rail__kicker">Chapters</p>
@@ -18,7 +18,7 @@ export function Chapters({ chapters, current, onSeek }: ChaptersProps) {
               type="button"
               className="chapter"
               aria-current={current?.id === chapter.id ? "true" : undefined}
-              onClick={() => onSeek(chapter.start)}
+              onClick={() => onSelect(chapter)}
             >
               <span className="chapter__num">{String(index + 1).padStart(2, "0")}</span>
               <span className="chapter__title">{chapter.title}</span>

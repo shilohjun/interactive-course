@@ -1,0 +1,75 @@
+{
+  "slideStarts": [0, 33, 73, 107, 115, 167, 271, 399, 463, 631, 726],
+  "chapters": [
+    { "id": "what-is", "title": "What is linear algebra?", "slide": 1 },
+    { "id": "why", "title": "Why is it worth studying?", "slide": 4 },
+    {
+      "id": "approximately-linear",
+      "title": "Reason 1 · Everything is approximately linear",
+      "slide": 6
+    },
+    { "id": "light", "title": "Reason 2 · Light travels in straight lines", "slide": 9 },
+    { "id": "scale", "title": "Reason 3 · Linear methods scale", "slide": 10 },
+    { "id": "nature", "title": "Reason 4 · Nature's equations are linear", "slide": 11 }
+  ],
+  "exercises": [
+    {
+      "after_slide": 3,
+      "label": "Start a question",
+      "problem": "LINALG1",
+      "url": "http://101.33.230.189/?problem=LINALG1"
+    }
+  ],
+  "explorables": [
+    {
+      "id": "approx-linear",
+      "at": 178,
+      "slide": 6,
+      "label": "Try it: everything is approximately linear",
+      "module": "approx-linear"
+    }
+  ],
+  "fixes": [
+    { "find": "and told her what you're learning", "replace": "and be told that what you're learning" },
+    { "find": "if you don't believe after this term", "replace": "if you don't believe me after this term" },
+    { "find": "almost the same is the red line", "replace": "almost the same as the red line" },
+    { "find": "pulls back back harder", "replace": "pulls back harder" },
+    { "find": "My reason too is that light", "replace": "My reason two is that light" },
+    { "find": "reason Reason three is the reason", "replace": "Reason three is the reason" },
+    {
+      "find": "quantum mechanics, and physics course, they are",
+      "replace": "quantum mechanics — in physics, of course — they are"
+    },
+    { "find": "thousands tens of thousands millions", "replace": "thousands, tens of thousands, millions" },
+    {
+      "find": "We don't have XY. Lots of other things we don't have all we have is",
+      "replace": "We don't have xy. We don't have a lot of other things; all we have is"
+    },
+    { "find": "and and goes back", "replace": "and goes back" },
+    { "find": " and and ", "replace": " and " },
+    { "find": "So but eventually", "replace": "But eventually" },
+    { "find": "here at Michigan 115 and 116", "replace": "here at Michigan, Math 115 and 116" },
+    { "find": "But we are getting here.", "replace": "But we are getting there." },
+    { "find": "if you have you could have", "replace": "you could have" },
+    { "find": "on having this much data", "replace": "with this much data" },
+    { "find": "geometrically when your algebra studies", "replace": "geometrically, linear algebra studies" },
+    { "find": "and algebraic, we have a study", "replace": "and algebraically, we have a study" },
+    { "find": "flat linear objects things like", "replace": "flat, linear objects — things like" },
+    { "find": "constant plus our second", "replace": "constant, plus our second" },
+    { "find": "constant plus our third", "replace": "constant, plus our third" },
+    { "find": "third variable equal to", "replace": "third variable, equal to" },
+    { "find": "or less over", "replace": "or less." },
+    { "find": "here, the stress that you feel back", "replace": "Here, the stress that you feel back" },
+    { "find": "doesn't resist quite as much and", "replace": "doesn't resist quite as much." },
+    { "find": "and geometrically, linear algebra", "replace": "And geometrically, linear algebra" },
+    { "find": "and over here on the y-axis", "replace": "And over here on the y-axis" },
+    { "find": "so this is a linear equation", "replace": "So this is a linear equation" },
+    { "find": "and you could have some huge", "replace": "And you could have some huge" },
+    { "find": "and what we're going to do now", "replace": "And what we're going to do now" },
+    { "find": "and they are dancing", "replace": "And they are dancing" },
+    { "find": "and as they are dancing", "replace": "And as they are dancing" },
+    { "find": "and light comes in", "replace": "And light comes in" },
+    { "find": "and he takes his paint brush", "replace": "And he takes his paint brush" },
+    { "find": "now you could take a calculus course", "replace": "Now you could take a calculus course" }
+  ]
+}

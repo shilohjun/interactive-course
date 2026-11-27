@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import type { LectureMeta, Transcript } from "../types";
 import { loadLecture } from "../lib/loadLecture";
@@ -15,6 +15,13 @@ export function PlayerPage() {
   const [video, setVideo] = useState<HTMLVideoElement | null>(null);
   const [mediaError, setMediaError] = useState(false);
   const [resumedAt, setResumedAt] = useState<number | null>(null);
+
+  // A stable callback ref: an inline one would be re-created on every render,
+  // detaching the video and clearing its error state each time.
+  const attachVideo = useCallback((element: HTMLVideoElement | null) => {
+    setVideo(element);
+    if (!element) setMediaError(false);
+  }, []);
 
   const clock = useMediaClock(video);
 
@@ -94,10 +101,7 @@ export function PlayerPage() {
       duration={clock.duration || data.meta.duration}
       playing={clock.playing}
       rate={clock.rate}
-      videoRef={(element) => {
-        setVideo(element);
-        if (!element) setMediaError(false);
-      }}
+      videoRef={attachVideo}
       onLoadedMetadata={handleLoadedMetadata}
       onVideoError={() => setMediaError(true)}
       onToggle={clock.toggle}

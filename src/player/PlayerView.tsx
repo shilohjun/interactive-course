@@ -12,6 +12,7 @@ import { Chapters } from "./Chapters";
 import { Captions } from "./Captions";
 import { Transport } from "./Transport";
 import { SlideStage } from "./SlideStage";
+import { VideoPane } from "./VideoPane";
 import { ExerciseCard } from "./ExerciseCard";
 import { ExplorableOverlay } from "./ExplorableOverlay";
 import { Attribution } from "./Attribution";
@@ -57,7 +58,9 @@ export function PlayerView({
 }: PlayerViewProps) {
   const cues = transcript.cues;
   const slide = slideAt(cues, time);
-  const activeCue = activeCueAt(cues, time);
+  const activeCue =
+    activeCueAt(cues, time) ??
+    (cues.length > 0 && time < cues[0].start ? cues[0] : null);
   const currentChapter = chapterAt(meta.chapters, time);
 
   const [videoVisible, setVideoVisible] = useState(true);
@@ -73,6 +76,11 @@ export function PlayerView({
     const target = nextSlide(cues, slide, direction, meta.slides.count);
     const at = firstTimeOfSlide(cues, target);
     if (at !== null) onSeek(at);
+  };
+
+  const goToChapter = (chapter: { slide: number; start: number }) => {
+    const at = firstTimeOfSlide(cues, chapter.slide);
+    onSeek(at ?? chapter.start);
   };
 
   const openExplorable = (item: ExplorableRef) => {
@@ -141,21 +149,11 @@ export function PlayerView({
 
       <div className="player__body">
         <aside className="rail">
-          <Chapters chapters={meta.chapters} current={currentChapter} onSeek={onSeek} />
+          <Chapters chapters={meta.chapters} current={currentChapter} onSelect={goToChapter} />
         </aside>
 
         <div className="stage">
-          <SlideStage
-            meta={meta}
-            baseUrl={baseUrl}
-            slide={slide}
-            videoRef={videoRef}
-            onLoadedMetadata={onLoadedMetadata}
-            onVideoError={onVideoError ?? (() => {})}
-            videoVisible={videoVisible}
-            onToggleVideo={() => setVideoVisible((visible) => !visible)}
-            mediaError={mediaError}
-          />
+          <SlideStage meta={meta} baseUrl={baseUrl} slide={slide} />
 
           <div className="stage__cards">
             {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
@@ -184,6 +182,16 @@ export function PlayerView({
         </div>
 
         <aside className="panel">
+          <VideoPane
+            meta={meta}
+            baseUrl={baseUrl}
+            videoRef={videoRef}
+            onLoadedMetadata={onLoadedMetadata}
+            onVideoError={onVideoError ?? (() => {})}
+            visible={videoVisible}
+            onToggle={() => setVideoVisible((visible) => !visible)}
+            mediaError={mediaError}
+          />
           <Captions cues={cues} active={activeCue} onSeek={onSeek} />
         </aside>
       </div>

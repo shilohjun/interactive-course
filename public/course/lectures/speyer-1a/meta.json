@@ -1,0 +1,35 @@
+{
+  "id": "speyer-1a",
+  "title": "Introduction to linear algebra",
+  "subtitle": "What is linear algebra, and why is it worth studying?",
+  "courseId": "speyer-214",
+  "duration": 841,
+  "slides": {
+    "count": 11,
+    "pdf": "slides.pdf"
+  },
+  "media": {
+    "file": "speyer-1a.mp4"
+  },
+  "chapters": [
+    { "id": "what-is", "title": "What is linear algebra?", "start": 0, "slide": 1 },
+    { "id": "why", "title": "Why is it worth studying?", "start": 107, "slide": 4 },
+    {
+      "id": "approximately-linear",
+      "title": "Reason 1 · Everything is approximately linear",
+      "start": 167,
+      "slide": 6
+    },
+    { "id": "light", "title": "Reason 2 · Light travels in straight lines", "start": 463, "slide": 9 },
+    { "id": "scale", "title": "Reason 3 · Linear methods scale", "start": 631, "slide": 10 },
+    { "id": "nature", "title": "Reason 4 · Nature's equations are linear", "start": 726, "slide": 11 }
+  ],
+  "source": {
+    "instructor": "David E. Speyer",
+    "course": "Math 214 · Applied Linear Algebra",
+    "institution": "University of Michigan",
+    "courseUrl": "https://sites.lsa.umich.edu/speyer/conferences/linear-algebra-videos/",
+    "videoUrl": "https://www.youtube.com/watch?v=Cu5v0QY6cmk",
+    "licenseNote": "Public course material with no Creative Commons license stated. This re-cut is unofficial, attributes the instructor, and links back to the original course page and video."
+  }
+}

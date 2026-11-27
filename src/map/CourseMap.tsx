@@ -61,6 +61,7 @@ export function CourseMapView({ data }: { data: CourseIndex }) {
               <p className="course__inst">{course.institution}</p>
               <h3>{course.title}</h3>
               <p className="course__by">{course.instructor}</p>
+              {course.blurb ? <p className="course__blurb">{course.blurb}</p> : null}
 
               {course.status === "live" ? (
                 <ul className="lectures">
