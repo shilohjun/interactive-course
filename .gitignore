@@ -11,3 +11,6 @@ test-results/
 # Real-course materials and internal format references must not be committed
 samples/mat3007-slides18/
 internal/
+
+# Internal briefing notes must not be published
+给dsh的回复.md
