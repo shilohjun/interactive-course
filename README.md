@@ -13,14 +13,17 @@
 - **选课** `/course/#/`：一屏三张封面，中间放大；左右箭头 / ← → 切课，点两侧封面把课移到中间。
   - Speyer 1a 与官方范例 Lecture 10 可进；MAT3007 标 `In preparation`，可居中但不能进。
   - About/署名用右上角小面板打开，切课后面板跟着当前课。
-- **播放器** `/course/#/lecture/speyer-1a`：课件当板，底部一条当前字幕 + 时间标尺 + 播放控制。
+- **播放器** `/course/#/lecture/speyer-1a`、`/course/#/lecture/lecture-10`：课件当板，底部一条当前字幕 + 时间标尺 + 播放控制。
   - 媒体 `currentTime` 是唯一时钟；自动翻页、字幕高亮、章节状态都从它推导。
   - 右侧面板默认打开 Transcript（桌面）；移动端默认收起先看板。面板可切 Chapters / Transcript / Info，关掉后板展开。
   - 手动翻页、点章节、点字幕都会 seek 到对应起点，seek 后页码与字幕重新对齐。
   - 英文逐句字幕、点句跳转、当前句滚动高亮；1× / 1.25× / 1.5×；上一页/下一页；空格与方向键。
+  - **Lecture 10 自带中英双语字幕**（940 句全部有中文，来自官方双语文稿），打开即可切 `EN / 中 / 双语`；Speyer 1a 目前是英文，中文需跑 `scripts/translate_cues.py`。
+  - **课件板可自由摆放**：默认贴合居中；拖动板面移动，右下角手柄缩放（锁课件比例），右上角 `Fit` 回到贴合。位置按讲座记在 `localStorage`；键盘 Shift+方向键移动、Alt+方向键缩放。
+  - **字幕语言可切**：`EN` / `中` / `双语`，底部字幕条与 Transcript 面板各一组按钮；中文由 `scripts/translate_cues.py` 生成，缺翻译时该按钮不出现。
+  - **官方录像可拖动缩放**：默认浮在板区右上角（不遮 Transcript），拖标题栏移动，右下角手柄调大小；位置与尺寸同样记忆。
   - 进度存 `localStorage`，重新打开会回到上次位置。
-  - 官方录像默认收起；点顶部 “Lecture video” 在板上开一个小窗，音频继续。
-  - 练习入口叠在板上，新标签打开步步解；课程页保留进度。
+  - 练习入口叠在板上，新标签打开步步解；课程页保留进度。卡片右上角 `×` 可关掉，当次浏览内不再弹出（刷新后恢复）。
   - Info 面板里有 PDF 下载、完整署名与「一个时钟」说明。
 - **探索小样**「局部近似线性」：拖动切点、显示切线与误差、放大窗、Zoom in / Reset；打开时暂停主媒体，关闭后回到原秒并恢复播放。
 
@@ -33,7 +36,7 @@ npm ci
 npm run dev          # http://localhost:5174/course/
 npm run build        # 产物在 dist/，base 为 /course/
 npm test             # Vitest：时间轴、存储、组件、课包校验
-npx playwright test  # 端到端：同步、练习、探索小样、视频缺失降级
+npx playwright test  # 端到端：同步、练习、探索小样、视频缺失降级、板的拖动缩放
 ```
 
 开发服务器只监听 `localhost`；如果要用 `127.0.0.1` 访问，请用 `localhost` 或自行加 `--host`。如果 5174 已被旧进程占用，先停掉旧的 Vite 再起，避免浏览器拿到旧 CSS。
@@ -50,21 +53,25 @@ public/course/lectures/speyer-1a/
   poster.jpg                                  # 视频首帧，播放器占位
 public/course/lectures/lecture-10/            # 官方范例课包，署名并链回原讲页
   meta.json
-  transcript.json                             # 英文字幕（官方逐句时间轴）
+  transcript.json                             # 中英双语字幕（940 句，官方逐句时间轴）
   slides/01.webp … 134.webp
   slides.pdf
+  poster.jpg
 public/course/lectures/mat3007/slides/01.webp # 只放 slides18 第一页（公开已获许可）
 public/media/speyer-1a.mp4                    # 不进 git，部署前拉取
 public/media/lecture-10.mp4                   # 不进 git，由九段官方章节录像拼接
 ```
 
-`transcript.json` 的字幕字段是 `{ start, end, slide, text, chapter? }`（秒）。播放器不关心媒体是官方录像还是 TTS，换一套课包就能上新课。
+`transcript.json` 的字幕字段是 `{ start, end, slide, text, text_zh?, chapter? }`（秒）。`text_zh` 可以缺省——缺省时该讲只显示 `EN`；一旦有中文，`中` 与 `双语` 按钮自动出现。播放器不关心媒体是官方录像还是 TTS，换一套课包就能上新课。
 
 ## 内容流水线
 
 ```bash
 # 1. 拉官方录像到 public/media/，并校验 SHA-256（仓库只留脚本，不留视频）
 bash scripts/fetch-media.sh
+
+# 1b. 官方范例 Lecture 10 课包（页图、双语字幕、meta、course.json 卡片）
+python scripts/build_lecture10_pack.py
 
 # 2. 抽 16 kHz 单声道音频（需 ffmpeg；imageio-ffmpeg 也可）
 ffmpeg -i public/media/speyer-1a.mp4 -vn -ac 1 -ar 16000 -c:a pcm_s16le .cache/speyer-1a.wav
@@ -79,7 +86,12 @@ python scripts/build_cues.py .cache/asr.json data/speyer-1a.timeline.json \
 # 5. 课件页图（可选，已提交）
 python scripts/slides_to_webp.py samples/speyer-1a/Lecture1a.pdf \
   public/course/lectures/speyer-1a/slides 1440
+
+# 6. 自己写的中文翻译（Lecture 10 不需要，官方稿已带中文）
+python scripts/translate_cues.py <in.json> <out.json>   # 需 DEEPSEEK_API_KEY
 ```
+
+如果你的机器上挂着本地代理（`HTTPS_PROXY`），`scripts/fetch-media.sh` 里的 `curl` 可能因为代理节点不通而握手失败；此时 `unset HTTPS_PROXY` 或给 curl 加 `--noproxy '*'` 即可直连。
 
 翻页点来自逐帧比对（`scripts/detect_slides.py` 与 `scripts/inspect_frames.py`），当前值写在 `data/speyer-1a.timeline.json` 的 `slideStarts`：`[0, 33, 73, 107, 115, 167, 271, 399, 463, 631, 726]`。校对词表也在这个文件的 `fixes` 里，重跑不会丢。
 
@@ -107,7 +119,9 @@ Speyer 视频没有任何字幕轨，英文字幕由 Whisper 生成后逐句校�
 ## 已知限制
 
 - 练习 Deep link 的题号目前是占位 `LINALG1`，等步步解题库真 id 到位后替换。
-- 字幕是自动转写后校对的；个别数学符号（如 `f′(x₀)`）在字幕里写作文字形式。
+- Speyer 1a 的字幕是 Whisper 自动转写后校对的；个别数学符号（如 `f′(x₀)`）在字幕里写作文字形式。Lecture 10 的字幕直接来自官方双语时间轴，不含此问题。
+- Speyer 1a 目前只有英文；前 10 句带示例中文。要全片中文字幕，跑 `scripts/translate_cues.py`（需 `DEEPSEEK_API_KEY`）。
+- Lecture 10 没有配练习题与探索小样（`exercises` / `explorables` 为空数组），只有讲解、翻页与双语字幕。
 - 高亮做到「页级」；区域级高亮字段已预留（`highlight`），尚未实现。
 - MAT3007 完整课包仍在准备中；现在只有公开许可的封面第一页。
 - 移动端同样是一屏；桌面默认打开 Transcript，移动端默认收起先看板。手机上的 Transcript/Chapters/Info 是全屏面板，关闭后回到板。

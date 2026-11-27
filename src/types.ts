@@ -3,6 +3,7 @@ export type Cue = {
   end: number;
   slide: number;
   text: string;
+  text_zh?: string;
   chapter?: string;
 };
 

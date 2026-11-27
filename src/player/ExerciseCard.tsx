@@ -3,9 +3,10 @@ import type { Exercise } from "../types";
 type ExerciseCardProps = {
   exercise: Exercise;
   onOpen: (exercise: Exercise) => void;
+  onDismiss: () => void;
 };
 
-export function ExerciseCard({ exercise, onOpen }: ExerciseCardProps) {
+export function ExerciseCard({ exercise, onOpen, onDismiss }: ExerciseCardProps) {
   if (!exercise.problem) {
     return (
       <aside className="ask ask--muted" aria-label="Practice question">
@@ -13,6 +14,7 @@ export function ExerciseCard({ exercise, onOpen }: ExerciseCardProps) {
           <p className="ask__kicker">Question</p>
           <p className="ask__body">Question coming soon.</p>
         </div>
+        <DismissButton onClick={onDismiss} />
       </aside>
     );
   }
@@ -37,6 +39,21 @@ export function ExerciseCard({ exercise, onOpen }: ExerciseCardProps) {
       >
         {exercise.label}
       </a>
+      <DismissButton onClick={onDismiss} />
     </aside>
+  );
+}
+
+function DismissButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      className="ask__dismiss"
+      onClick={onClick}
+      aria-label="Dismiss question"
+      title="Dismiss"
+    >
+      ×
+    </button>
   );
 }

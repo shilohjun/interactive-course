@@ -9,4 +9,4 @@ Official chapter videos (not stored in this repository):
   Downloaded and concatenated by scripts/fetch-media.sh
 
 The video is the official AI-narrated recording. This pack does not clone the instructor's voice.
-English cues are taken from the official timed transcript; Chinese subtitles are not included.
+English and Chinese cues both come from the official bilingual transcript.

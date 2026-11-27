@@ -82,7 +82,7 @@ def write_pack(data: dict) -> None:
                 "slide": int(part["first"]),
             }
         )
-        for start, end, slide, english, _chinese in part["sents"]:
+        for start, end, slide, english, chinese in part["sents"]:
             start_t = round(offset + start, 3)
             end_t = round(offset + end, 3)
             if end_t <= start_t:
@@ -90,15 +90,19 @@ def write_pack(data: dict) -> None:
             text = english.strip()
             if not text:
                 continue
-            cues.append(
-                {
-                    "start": start_t,
-                    "end": end_t,
-                    "slide": int(slide),
-                    "text": text,
-                    "chapter": chapter_id,
-                }
-            )
+            cue = {
+                "start": start_t,
+                "end": end_t,
+                "slide": int(slide),
+                "text": text,
+            }
+            # The official transcript is bilingual; keep the Chinese line so the
+            # player can offer EN / 中 / 双语 without calling a translation API.
+            zh = (chinese or "").strip()
+            if zh:
+                cue["text_zh"] = zh
+            cue["chapter"] = chapter_id
+            cues.append(cue)
         offset += part_dur
 
     meta = {
@@ -140,13 +144,14 @@ def write_pack(data: dict) -> None:
                 "  Downloaded and concatenated by scripts/fetch-media.sh",
                 "",
                 "The video is the official AI-narrated recording. This pack does not clone the instructor's voice.",
-                "English cues are taken from the official timed transcript; Chinese subtitles are not included.",
+                "English and Chinese cues both come from the official bilingual transcript.",
                 "",
             ]
         ),
         encoding="utf-8",
     )
-    print(f"wrote meta, transcript ({len(cues)} English cues), SOURCES.txt")
+    with_zh = sum(1 for cue in cues if cue.get("text_zh"))
+    print(f"wrote meta, transcript ({len(cues)} cues, {with_zh} with Chinese), SOURCES.txt")
 
 
 def render_slides(pdf: Path, width: int = 1440) -> None:

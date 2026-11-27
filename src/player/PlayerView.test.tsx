@@ -141,6 +141,18 @@ describe("PlayerView", () => {
     open.mockRestore();
   });
 
+  it("lets the reader dismiss the exercise prompt for the lecture", async () => {
+    const { rerender, props } = setup({ time: 80 });
+    const card = screen.getByRole("complementary", { name: /practice question/i });
+    await userEvent.click(within(card).getByRole("button", { name: /dismiss question/i }));
+    expect(screen.queryByRole("complementary", { name: /practice question/i })).toBeNull();
+
+    // Leaving the slide and coming back does not bring the card back.
+    rerender(<PlayerView {...props} time={300} />);
+    rerender(<PlayerView {...props} time={80} />);
+    expect(screen.queryByRole("complementary", { name: /practice question/i })).toBeNull();
+  });
+
   it("pauses for the explorable and restores time and play state on close", async () => {
     const { props } = setup({ playing: true });
     await userEvent.click(screen.getByRole("button", { name: /try it/i }));

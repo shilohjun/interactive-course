@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { ExplorableRef, Exercise, LectureMeta, Transcript } from "../types";
+import type { CaptionLang } from "../lib/captions";
 import {
   activeCueAt,
   chapterAt,
@@ -8,6 +9,8 @@ import {
   nextSlide,
   slideAt,
 } from "../lib/timeline";
+import { formatCaptionForDisplay } from "../lib/captions";
+import { BoardFrame } from "./BoardFrame";
 import { Chapters } from "./Chapters";
 import { Captions } from "./Captions";
 import { Transport } from "./Transport";
@@ -74,10 +77,34 @@ export function PlayerView({
   const [videoOpen, setVideoOpen] = useState(false);
   const [activeExplorable, setActiveExplorable] = useState<ExplorableRef | null>(null);
   const [resumePoint, setResumePoint] = useState<{ time: number; playing: boolean } | null>(null);
+  const [captionLang, setCaptionLang] = useState<CaptionLang>(() => {
+    const saved = localStorage.getItem("caption-lang");
+    return (saved === "en" || saved === "zh" || saved === "both") ? saved : "en";
+  });
+  const [slideRatio, setSlideRatio] = useState(4 / 3);
+  const [dismissedQuestions, setDismissedQuestions] = useState<string[]>([]);
+
+  const handleIntrinsicSize = useCallback((width: number, height: number) => {
+    if (width > 0 && height > 0) setSlideRatio(width / height);
+  }, []);
+
+  // Save caption language preference
+  useEffect(() => {
+    localStorage.setItem("caption-lang", captionLang);
+  }, [captionLang]);
 
   const exercise = transcript.exercises.find((item) => item.after_slide === slide) ?? null;
+  const exerciseKey = exercise ? `${meta.id}:${exercise.after_slide}` : null;
+  const showExercise = exercise !== null && exerciseKey !== null && !dismissedQuestions.includes(exerciseKey);
   const explorable =
     transcript.explorables.find((item) => item.slide === slide && time >= item.at) ?? null;
+
+  const dismissExercise = () => {
+    if (!exerciseKey) return;
+    setDismissedQuestions((current) =>
+      current.includes(exerciseKey) ? current : [...current, exerciseKey],
+    );
+  };
 
   const togglePanel = (next: Exclude<Panel, null>) => {
     setPanel((current) => (current === next ? null : next));
@@ -132,6 +159,8 @@ export function PlayerView({
         return;
       }
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        // Modified arrows belong to the board's move/resize bindings.
+        if (event.altKey || event.shiftKey) return;
         event.preventDefault();
         const direction = event.key === "ArrowRight" ? 1 : -1;
         const target = nextSlide(cues, slide, direction, meta.slides.count);
@@ -194,27 +223,42 @@ export function PlayerView({
 
       <div className="player-body">
         <div className="board-area">
-          <div className="board-wrap">
-            <SlideStage meta={meta} baseUrl={baseUrl} slide={slide} />
+          <BoardFrame
+            storageKey={`board-box:${meta.id}`}
+            ratio={slideRatio}
+            label={`Slide ${slide} / ${meta.slides.count}`}
+          >
+            <SlideStage
+              meta={meta}
+              baseUrl={baseUrl}
+              slide={slide}
+              onIntrinsicSize={handleIntrinsicSize}
+            />
 
-            {exercise ? <ExerciseCard exercise={exercise} onOpen={openExercise} /> : null}
+            {showExercise && exercise ? (
+              <ExerciseCard
+                exercise={exercise}
+                onOpen={openExercise}
+                onDismiss={dismissExercise}
+              />
+            ) : null}
 
             {explorable ? (
               <button type="button" className="try" onClick={() => openExplorable(explorable)}>
                 {explorable.label}
               </button>
             ) : null}
+          </BoardFrame>
 
-            <VideoPane
-              meta={meta}
-              baseUrl={baseUrl}
-              videoRef={videoRef}
-              onLoadedMetadata={onLoadedMetadata}
-              onVideoError={onVideoError ?? (() => {})}
-              visible={videoOpen}
-              onToggle={() => setVideoOpen(false)}
-            />
-          </div>
+          <VideoPane
+            meta={meta}
+            baseUrl={baseUrl}
+            videoRef={videoRef}
+            onLoadedMetadata={onLoadedMetadata}
+            onVideoError={onVideoError ?? (() => {})}
+            visible={videoOpen}
+            onToggle={() => setVideoOpen(false)}
+          />
 
           {mediaError ? (
             <p className="player-notice" role="status">
@@ -237,7 +281,9 @@ export function PlayerView({
               <Captions
                 cues={cues}
                 active={activeCue}
+                lang={captionLang}
                 onSeek={onSeek}
+                onLangChange={setCaptionLang}
                 onClose={() => setPanel(null)}
               />
             ) : null}
@@ -253,16 +299,65 @@ export function PlayerView({
           <span className="caption__time">
             {activeCue ? formatTime(activeCue.start) : formatTime(time)}
           </span>
-          <p className="caption__text">
-            {activeCue ? activeCue.text : "No transcript line at this point."}
-          </p>
-          <button
-            type="button"
-            className="caption__open"
-            onClick={() => togglePanel("transcript")}
-          >
-            Transcript
-          </button>
+          <div className="caption__content">
+            {activeCue ? (
+              (() => {
+                const display = formatCaptionForDisplay(activeCue, captionLang);
+                return (
+                  <>
+                    <p className="caption__text">{display.primary}</p>
+                    {display.secondary && (
+                      <p className="caption__text caption__text--secondary">{display.secondary}</p>
+                    )}
+                  </>
+                );
+              })()
+            ) : (
+              <p className="caption__text">No transcript line at this point.</p>
+            )}
+          </div>
+          <div className="caption__controls">
+            <div className="caption__lang-switch">
+              <button
+                type="button"
+                className={captionLang === "en" ? "is-active" : undefined}
+                onClick={() => setCaptionLang("en")}
+                aria-label="English captions"
+                title="English"
+              >
+                EN
+              </button>
+              {cues.some((c) => c.text_zh) && (
+                <>
+                  <button
+                    type="button"
+                    className={captionLang === "zh" ? "is-active" : undefined}
+                    onClick={() => setCaptionLang("zh")}
+                    aria-label="Chinese captions"
+                    title="中文"
+                  >
+                    中
+                  </button>
+                  <button
+                    type="button"
+                    className={captionLang === "both" ? "is-active" : undefined}
+                    onClick={() => setCaptionLang("both")}
+                    aria-label="Bilingual captions"
+                    title="双语"
+                  >
+                    双语
+                  </button>
+                </>
+              )}
+            </div>
+            <button
+              type="button"
+              className="caption__open"
+              onClick={() => togglePanel("transcript")}
+            >
+              Transcript
+            </button>
+          </div>
         </div>
 
         <Transport

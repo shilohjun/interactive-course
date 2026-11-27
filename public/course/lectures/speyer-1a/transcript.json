@@ -5,6 +5,7 @@
    "end": 12.99,
    "slide": 1,
    "text": "Hello, welcome to math 214 applied linear algebra, if you're looking for information about how this course will operate,",
+   "text_zh": "你好，欢迎来到数学214应用线性代数课程。如果你想了解本课程的运作方式，",
    "chapter": "what-is"
   },
   {
@@ -12,6 +13,7 @@
    "end": 17.21,
    "slide": 1,
    "text": "please read the syllabus on the Canvas page and on the course web page.",
+   "text_zh": "请阅读Canvas页面和课程网页上的教学大纲。",
    "chapter": "what-is"
   },
   {
@@ -19,6 +21,7 @@
    "end": 24.73,
    "slide": 1,
    "text": "What I want to do today is to talk about why do we think this course should exist?",
+   "text_zh": "今天我想讨论的是，我们为什么认为应该开设这门课程？",
    "chapter": "what-is"
   },
   {
@@ -26,6 +29,7 @@
    "end": 29.31,
    "slide": 1,
    "text": "What is linear algebra, why is it worth studying?",
+   "text_zh": "什么是线性代数，为什么值得学习？",
    "chapter": "what-is"
   },
   {
@@ -33,6 +37,7 @@
    "end": 37.26,
    "slide": 2,
    "text": "So algebraically, linear algebra is the study of linear equations.",
+   "text_zh": "从代数角度来说，线性代数是研究线性方程的学科。",
    "chapter": "what-is"
   },
   {
@@ -40,6 +45,7 @@
    "end": 43.66,
    "slide": 2,
    "text": "If you think back to high school algebra one, a linear equation is an equation like this one.",
+   "text_zh": "回想高中代数一，线性方程就是像这样的方程。",
    "chapter": "what-is"
   },
   {
@@ -47,6 +53,7 @@
    "end": 50.06,
    "slide": 2,
    "text": "Each variable appears just to a single power, not squared or cubed.",
+   "text_zh": "每个变量只出现一次幂，没有平方或立方。",
    "chapter": "what-is"
   },
   {
@@ -54,6 +61,7 @@
    "end": 52.52,
    "slide": 2,
    "text": "No variables are multiplied by each other.",
+   "text_zh": "变量之间不相互相乘。",
    "chapter": "what-is"
   },
   {
@@ -61,6 +69,7 @@
    "end": 65.92,
    "slide": 2,
    "text": "We don't have xy. We don't have a lot of other things; all we have is our first variable times some constant, plus our second variable times some constant, plus our third variable, equal to something",
+   "text_zh": "我们没有xy项。也没有很多其他项；我们只有第一个变量乘以某个常数，加上第二个变量乘以某个常数，加上第三个变量，等于某个值。",
    "chapter": "what-is"
   },
   {
@@ -68,6 +77,7 @@
    "end": 70.96,
    "slide": 2,
    "text": "So this is a linear equation that's the simplest kind of equation you could be thinking about",
+   "text_zh": "所以这就是线性方程，是你能想到的最简单的方程类型。",
    "chapter": "what-is"
   },
   {

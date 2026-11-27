@@ -20,3 +20,6 @@ internal/
 
 # Local design inspection artifacts
 .taste-skill/
+
+# Python bytecode from the content pipeline
+__pycache__/
