@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/opt/interactive-course/current
-ExecStart=/usr/bin/node /opt/interactive-course/current/server.mjs
+ExecStart=/usr/local/bin/node /opt/interactive-course/current/server.mjs
 Environment=HOST=127.0.0.1
 Environment=PORT=5174
 Environment=DIST_ROOT=/opt/interactive-course/current
