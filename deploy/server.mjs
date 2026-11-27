@@ -25,11 +25,19 @@ const MIME = {
   ".woff2": "font/woff2",
 };
 
+function cacheControl(filePath, type) {
+  if (type.startsWith("text/html")) return "no-cache";
+  const rel = filePath.slice(ROOT.length).split(sep).join("/");
+  // Hashed Vite assets can be cached forever. Unhashed JSON (course.json,
+  // meta, transcript) changes in place and must not be marked immutable.
+  if (rel.startsWith("/assets/")) return "public, max-age=604800, immutable";
+  if (type.startsWith("application/json")) return "no-cache";
+  return "public, max-age=3600, must-revalidate";
+}
+
 function sendFile(response, filePath, stat) {
   const type = MIME[extname(filePath).toLowerCase()] ?? "application/octet-stream";
-  const cache = type.startsWith("text/html")
-    ? "no-cache"
-    : "public, max-age=604800, immutable";
+  const cache = cacheControl(filePath, type);
   response.writeHead(200, {
     "Content-Type": type,
     "Content-Length": stat.size,
@@ -83,7 +91,7 @@ const server = http.createServer((request, response) => {
           "Content-Length": end - start + 1,
           "Content-Range": `bytes ${start}-${end}/${stat.size}`,
           "Accept-Ranges": "bytes",
-          "Cache-Control": "public, max-age=604800, immutable",
+          "Cache-Control": cacheControl(filePath, type),
         });
         createReadStream(filePath, { start, end }).pipe(response);
         return;
