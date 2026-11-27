@@ -1,7 +1,7 @@
 import type { CourseIndex } from "../types";
 
 async function loadJson<T>(path: string): Promise<T> {
-  const url = `${import.meta.env.BASE_URL}${path}`;
+  const url = `${import.meta.env.BASE_URL}${path}?v=6b970e1`;
   const response = await fetch(url, { cache: "no-cache" });
   if (!response.ok) {
     throw new Error(`Could not load ${url} (HTTP ${response.status})`);
